@@ -1,6 +1,4 @@
-<script setup lang="ts">
-import img1 from "@/assets/images/img1.jpg";
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div class="">
@@ -133,6 +131,7 @@ import img1 from "@/assets/images/img1.jpg";
                       id="password"
                       name="password"
                       type="password"
+                      placeholder="Mật khẩu của bạn"
                       autocomplete="current-password"
                       required
                       class="block w-full rounded-lg px-3 py-1.5 outline-none transition-all duration-200 text-gray-900 shadow border placeholder:text-gray-400 focus:border-blue-500 sm:text-sm sm:leading-6"
