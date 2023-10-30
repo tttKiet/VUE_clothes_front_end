@@ -10,9 +10,9 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: "/about",
-    name: "About",
-    component: () => import("@components/About.vue"),
+    path: "/login",
+    name: "Login",
+    component: () => import("@pages/Login.vue"),
   },
   {
     path: "/:pathMatch(.*)*",

@@ -1,9 +1,11 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Header from "@comp/Header.vue";
+</script>
 
 <template>
   <!-- <v-layout>
     <v-main> -->
-  <div class="text-red-600">header-------------------</div>
+  <Header />
   <slot></slot>
   <!-- </v-main>
   </v-layout> -->

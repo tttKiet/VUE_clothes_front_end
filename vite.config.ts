@@ -12,7 +12,7 @@ export default defineConfig({
         replacement: fileURLToPath(new URL("src/", import.meta.url)),
       },
       {
-        find: "@components",
+        find: "@comp",
         replacement: fileURLToPath(new URL("src/components/", import.meta.url)),
       },
       {
