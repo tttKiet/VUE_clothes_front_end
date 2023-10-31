@@ -4,7 +4,7 @@
   <div class="">
     <div class="">
       <div
-        class="grid grid-cols-2 px-6 py-8 mx-auto bg-white md:h-screen lg:py-0"
+        class="grid grid-cols-2 px-6 py-8 mx-auto bg-white md:min-h-screen lg:py-0"
       >
         <div class="p-6 overflow-hidden flex justify-center items-center">
           <div aria-hidden="true" class="pointer-events-none">
@@ -86,12 +86,30 @@
               <h2
                 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900"
               >
-                Chào mừng bạn trở lại
+                Đăng ký thành viên mới
               </h2>
             </div>
 
             <div class="mt-10 sm:w-full sm:max-w-sm">
               <form class="space-y-6" action="#" method="POST">
+                <div>
+                  <label
+                    for="ho_ten_KH"
+                    class="block text-sm font-medium leading-6 text-gray-900"
+                    >Họ và tên</label
+                  >
+                  <div class="mt-2">
+                    <input
+                      id="ho_ten_KH"
+                      name="ho_ten_KH"
+                      type="ho_ten_KH"
+                      autocomplete="ho_ten_KH"
+                      placeholder="Vd: Nguyen Van A"
+                      required
+                      class="block w-full rounded-lg px-3 py-1.5 outline-none transition-all duration-200 text-gray-900 shadow border placeholder:text-gray-400 focus:border-blue-500 sm:text-sm sm:leading-6"
+                    />
+                  </div>
+                </div>
                 <div>
                   <label
                     for="phone"
@@ -110,22 +128,31 @@
                     />
                   </div>
                 </div>
+                <div>
+                  <label
+                    for="dia_chi"
+                    class="block text-sm font-medium leading-6 text-gray-900"
+                    >Đại chỉ</label
+                  >
+                  <div class="mt-2">
+                    <input
+                      id="dia_chi"
+                      name="dia_chi"
+                      type="dia_chi"
+                      autocomplete="dia_chi"
+                      placeholder="Vd: Nhập địa chỉ của bạn"
+                      required
+                      class="block w-full rounded-lg px-3 py-1.5 outline-none transition-all duration-200 text-gray-900 shadow border placeholder:text-gray-400 focus:border-blue-500 sm:text-sm sm:leading-6"
+                    />
+                  </div>
+                </div>
 
                 <div>
-                  <div class="flex items-center justify-between">
-                    <label
-                      for="password"
-                      class="block text-sm font-medium leading-6 text-gray-900"
-                      >Mật khẩu</label
-                    >
-                    <div class="text-sm">
-                      <a
-                        href="#"
-                        class="font-semibold text-indigo-600 hover:text-indigo-500"
-                        >Quên mật khẩu?</a
-                      >
-                    </div>
-                  </div>
+                  <label
+                    for="password"
+                    class="block text-sm font-medium leading-6 text-gray-900"
+                    >Mật khẩu</label
+                  >
                   <div class="mt-2">
                     <input
                       id="password"
@@ -140,26 +167,41 @@
                 </div>
 
                 <div>
+                  <div class="flex items-center justify-between">
+                    <label
+                      for="re-password"
+                      class="block text-sm font-medium leading-6 text-gray-900"
+                      >Nhập lại mật khẩu</label
+                    >
+                  </div>
+                  <div class="mt-2">
+                    <input
+                      id="re-password"
+                      name="re-password"
+                      type="re-password"
+                      placeholder="Nhập lại mật khẩu của bạn"
+                      required
+                      class="block w-full rounded-lg px-3 py-1.5 outline-none transition-all duration-200 text-gray-900 shadow border placeholder:text-gray-400 focus:border-blue-500 sm:text-sm sm:leading-6"
+                    />
+                  </div>
+                </div>
+
+                <div>
                   <button
                     type="submit"
                     class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   >
-                    Đăng nhập
+                    Đăng ký
                   </button>
                 </div>
               </form>
 
               <p class="mt-10 text-center text-sm text-gray-500">
-                Not a member?
-                <span href="#" class="font-semibold leading-6"
-                  >Bắt đầu sử dụng website</span
-                >
-                -
+                Bạn đã có tài khoản?
                 <router-link
-                  class="text-indigo-600 hover:text-indigo-500 font-bold"
-                  :to="{ name: 'Register' }"
-                >
-                  Đăng ký ngay!</router-link
+                  to="Login"
+                  class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+                  >Đăng nhập ngay!</router-link
                 >
               </p>
             </div>
