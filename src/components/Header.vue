@@ -108,11 +108,19 @@
         </PopoverGroup>
         <div class="hidden lg:flex lg:flex-1 lg:justify-end">
           <router-link
+            v-if="!accessToken"
             to="/login"
             class="text-sm font-semibold leading-6 text-gray-900"
           >
             Đăng nhập <span aria-hidden="true">&rarr;</span>
           </router-link>
+          <div v-else class="py-6">
+            <a
+              href="#"
+              class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+              >{{ accessToken }}
+            </a>
+          </div>
         </div>
       </nav>
       <Dialog
@@ -183,11 +191,18 @@
                   >Công ty</a
                 >
               </div>
-              <div class="py-6">
+              <div v-if="!accessToken" class="py-6">
                 <a
                   href="#"
                   class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                   >Đăng nhập
+                </a>
+              </div>
+              <div v-else class="py-6">
+                <a
+                  href="#"
+                  class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  >{{ accessToken }}
                 </a>
               </div>
             </div>
@@ -225,7 +240,13 @@ import {
   PhoneIcon,
   PlayCircleIcon,
 } from "@heroicons/vue/20/solid";
+import { useAuth } from "@/hook/use-auth";
+import { userLoginStore } from "@/pinia/store";
+const { user } = useAuth();
+const { accessToken } = userLoginStore();
 
+console.log("user-----------", user._id);
+console.log("accessToken-----------", accessToken);
 const products = [
   {
     name: "Analytics",

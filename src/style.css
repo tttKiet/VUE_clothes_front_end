@@ -5,3 +5,7 @@
 html {
   scroll-behavior: smooth;
 }
+
+.field-error {
+  @apply text-sm text-red-500;
+}

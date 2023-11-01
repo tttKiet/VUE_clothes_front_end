@@ -1,4 +1,19 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { loginValidate } from "@/yup-validate";
+import { Form, Field, ErrorMessage } from "vee-validate";
+import { useAuth } from "@/hook/use-auth";
+import { useRouter } from "vue-router";
+const { login } = useAuth();
+const router = useRouter();
+async function onSubmit(values: any) {
+  console.log(values);
+  await login({
+    so_dien_thoai: values.phone,
+    password: values.password,
+  });
+  router.push("/");
+}
+</script>
 
 <template>
   <div class="">
@@ -91,15 +106,19 @@
             </div>
 
             <div class="mt-10 sm:w-full sm:max-w-sm">
-              <form class="space-y-6" action="#" method="POST">
+              <Form
+                @submit="onSubmit"
+                :validation-schema="loginValidate"
+                class="space-y-1"
+              >
                 <div>
                   <label
                     for="phone"
                     class="block text-sm font-medium leading-6 text-gray-900"
                     >Số điện thoại</label
                   >
-                  <div class="mt-2">
-                    <input
+                  <div class="min-h-[70px] mt-2">
+                    <Field
                       id="phone"
                       name="phone"
                       type="phone"
@@ -108,6 +127,7 @@
                       required
                       class="block w-full rounded-lg px-3 py-1.5 outline-none transition-all duration-200 text-gray-900 shadow border placeholder:text-gray-400 focus:border-blue-500 sm:text-sm sm:leading-6"
                     />
+                    <ErrorMessage class="field-error" name="phone" />
                   </div>
                 </div>
 
@@ -126,16 +146,16 @@
                       >
                     </div>
                   </div>
-                  <div class="mt-2">
-                    <input
+                  <div class="min-h-[70px] mt-2">
+                    <Field
                       id="password"
                       name="password"
                       type="password"
                       placeholder="Mật khẩu của bạn"
-                      autocomplete="current-password"
                       required
                       class="block w-full rounded-lg px-3 py-1.5 outline-none transition-all duration-200 text-gray-900 shadow border placeholder:text-gray-400 focus:border-blue-500 sm:text-sm sm:leading-6"
                     />
+                    <ErrorMessage class="field-error" name="password" />
                   </div>
                 </div>
 
@@ -147,7 +167,7 @@
                     Đăng nhập
                   </button>
                 </div>
-              </form>
+              </Form>
 
               <p class="mt-10 text-center text-sm text-gray-500">
                 Not a member?
