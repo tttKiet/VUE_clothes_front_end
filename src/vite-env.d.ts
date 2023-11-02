@@ -18,3 +18,13 @@ interface User {
 interface UserLogin extends User {
   role: Role;
 }
+
+interface Product {
+  _id: string;
+  ten_HH: string;
+  mo_ta_HH: string;
+  gia: number;
+  so_luong_hang: number;
+  ghi_chu: string;
+  createdAt: string;
+}

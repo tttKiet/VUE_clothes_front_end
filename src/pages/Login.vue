@@ -7,11 +7,16 @@ const { login } = useAuth();
 const router = useRouter();
 async function onSubmit(values: any) {
   console.log(values);
-  await login({
+  const res = await login({
     so_dien_thoai: values.phone,
     password: values.password,
   });
-  router.push("/");
+  if (res?.data?.role === "admin") {
+    router.push("/admin");
+  } else {
+    router.push("/");
+  }
+  console.log(res);
 }
 </script>
 

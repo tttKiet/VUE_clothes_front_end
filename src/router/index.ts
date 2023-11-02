@@ -1,5 +1,6 @@
 import { RouteRecordRaw } from "vue-router";
 import TheDefaultLayout from "@layouts/TheDefaultLayout.vue";
+import TheDashboardLayout from "@layouts/TheDashboardLayout.vue";
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
@@ -18,6 +19,30 @@ const routes: Array<RouteRecordRaw> = [
     path: "/register",
     name: "Register",
     component: () => import("@pages/Register.vue"),
+  },
+  {
+    path: "/admin",
+    name: "Admin",
+    component: () => import("@/pages/admin/Dashboard.vue"),
+    meta: {
+      layout: TheDashboardLayout,
+    },
+  },
+  {
+    path: "/admin/manager-product",
+    name: "Admin/ManagerProduct",
+    component: () => import("@/pages/admin/ManagerProduct.vue"),
+    meta: {
+      layout: TheDashboardLayout,
+    },
+  },
+  {
+    path: "/admin/order",
+    name: "Admin/Order",
+    component: () => import("@/pages/admin/Order.vue"),
+    meta: {
+      layout: TheDashboardLayout,
+    },
   },
   {
     path: "/:pathMatch(.*)*",
