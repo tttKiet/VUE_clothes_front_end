@@ -108,18 +108,68 @@
         </PopoverGroup>
         <div class="hidden lg:flex lg:flex-1 lg:justify-end">
           <router-link
-            v-if="!accessToken"
+            v-if="!user._id"
             to="/login"
             class="text-sm font-semibold leading-6 text-gray-900"
           >
             Đăng nhập <span aria-hidden="true">&rarr;</span>
           </router-link>
-          <div v-else class="py-6">
-            <a
-              href="#"
-              class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-              >{{ accessToken }}
-            </a>
+          <div v-else class="">
+            <Popover class="relative">
+              <PopoverButton
+                class="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900"
+              >
+                <span
+                  href="#"
+                  class="-mx-3 flex items-center gap-2 rounded-lg px-3 text-sm font-semibold leading-7 text-gray-900"
+                  >Xin chào
+                  <span class="text-pink-500">{{ user.ho_ten_KH }}!</span>
+                  <img
+                    class="inline-block h-8 w-8 rounded-full ring-2 ring-white"
+                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                    alt=""
+                  />
+                </span>
+              </PopoverButton>
+
+              <transition
+                enter-active-class="transition ease-out duration-200"
+                enter-from-class="opacity-0 translate-y-1"
+                enter-to-class="opacity-100 translate-y-0"
+                leave-active-class="transition ease-in duration-150"
+                leave-from-class="opacity-100 translate-y-0"
+                leave-to-class="opacity-0 translate-y-1"
+              >
+                <PopoverPanel
+                  class="absolute pt-1 text-base right-0 top-full z-10 mt-3 w-screen max-w-[240px] overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5"
+                >
+                  <!-- text-gray-900 -->
+                  <div class="p-1 px-3">
+                    <div
+                      class="group relative text-red-500 flex items-center gap-x-4 rounded-lg p-2 text-sm leading-6 hover:bg-gray-50"
+                    >
+                      <div class="flex w-5 h-5 justify-center rounded-lg">
+                        <PowerIcon class="" />
+                      </div>
+                      <div class="flex-auto">
+                        <button
+                          class="block font-semibold"
+                          @click="handleClickLogout"
+                        >
+                          Đăng xuất
+                          <span class="absolute inset-0" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="divide-x text-sm text-center px-4 py-1 divide-gray-900/5 bg-gray-50"
+                  >
+                    Thanks for shopping!
+                  </div>
+                </PopoverPanel>
+              </transition>
+            </Popover>
           </div>
         </div>
       </nav>
@@ -191,7 +241,7 @@
                   >Công ty</a
                 >
               </div>
-              <div v-if="!accessToken" class="py-6">
+              <div v-if="!user._id" class="py-6">
                 <a
                   href="#"
                   class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
@@ -202,7 +252,7 @@
                 <a
                   href="#"
                   class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                  >{{ accessToken }}
+                  >{{ user.ho_ten_KH }}
                 </a>
               </div>
             </div>
@@ -211,6 +261,18 @@
       </Dialog>
     </div>
   </header>
+  <Modal
+    :open="open"
+    title="Bạn muốn đăng xuất?"
+    :toggle-show-modal="toggleShowModal"
+    text-cancel="Hủy"
+    text-submit="Đồng ý"
+    :handle-click-ok="handleClickLogoutOk"
+  >
+    <template #body>
+      <p class="text-gray-600">Bạn sẽ đăng xuất khỏi hệ thống.</p>
+    </template>
+  </Modal>
 </template>
 
 <script setup lang="ts">
@@ -239,14 +301,17 @@ import {
   ChevronDownIcon,
   PhoneIcon,
   PlayCircleIcon,
+  PowerIcon,
 } from "@heroicons/vue/20/solid";
 import { useAuth } from "@/hook/use-auth";
-import { userLoginStore } from "@/pinia/store";
-const { user } = useAuth();
-const { accessToken } = userLoginStore();
+import Modal from "./modal/Modal.vue";
+const { user, logout } = useAuth();
+const open = ref(false);
 
-console.log("user-----------", user._id);
-console.log("accessToken-----------", accessToken);
+function toggleShowModal() {
+  open.value = !open.value;
+}
+
 const products = [
   {
     name: "Analytics",
@@ -285,6 +350,14 @@ const callsToAction = [
 ];
 
 const mobileMenuOpen = ref(false);
+
+async function handleClickLogoutOk() {
+  await logout();
+  toggleShowModal();
+}
+function handleClickLogout() {
+  toggleShowModal();
+}
 </script>
 
 <style scope>

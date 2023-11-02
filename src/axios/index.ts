@@ -29,7 +29,7 @@ instance.interceptors.response.use(
     const originalRequest = error.config;
     if (error.response.status === 403 && !originalRequest._retry) {
       originalRequest._retry = true;
-      const { saveToken } = userLoginStore();
+      const { saveToken, logout } = userLoginStore();
       return instance
         .post("/api/v1/auth/refresh")
         .then((response) => {
@@ -41,7 +41,7 @@ instance.interceptors.response.use(
         .catch((error2) => {
           console.log("error2", error2);
           // logout
-          
+          logout();
           return Promise.reject(error2);
         });
     }

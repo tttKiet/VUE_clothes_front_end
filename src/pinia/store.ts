@@ -2,9 +2,7 @@ import { defineStore } from "pinia";
 
 export interface loginPayload {
   accessToken: string;
-  data: {
-    _id: string;
-  };
+  data: UserLogin;
 }
 
 export const userLoginStore = defineStore("user", {
@@ -12,14 +10,15 @@ export const userLoginStore = defineStore("user", {
     _accessToken: "",
     _data: {
       _id: "",
+      _ho_ten_KH: "",
+      _role: "user" as Role,
+      _dia_chi: "",
+      _so_dien_thoai: "",
     },
   }),
   getters: {
     accessToken(state) {
       // autocompletion! ✨
-      console.log("state", {
-        _accessToken: state._accessToken,
-      });
       return state._accessToken;
     },
     user(state) {
@@ -27,13 +26,29 @@ export const userLoginStore = defineStore("user", {
     },
   },
   actions: {
+    setDefault() {
+      this._accessToken = "";
+      this._data = {
+        _id: "",
+        _ho_ten_KH: "",
+        _role: "user",
+        _dia_chi: "",
+        _so_dien_thoai: "",
+      };
+    },
     login(payload: loginPayload) {
       this._accessToken = payload.accessToken;
       window.localStorage.setItem(
         "accessToken",
         JSON.stringify(payload.accessToken),
       );
-      this._data = { ...payload.data };
+      this._data = {
+        _id: payload.data._id,
+        _ho_ten_KH: payload.data.ho_ten_KH,
+        _so_dien_thoai: payload.data.so_dien_thoai,
+        _role: payload.data.role,
+        _dia_chi: payload.data.dia_chi,
+      };
     },
 
     saveToken(access_token: string) {
@@ -41,12 +56,19 @@ export const userLoginStore = defineStore("user", {
       this._accessToken = access_token;
     },
 
+    saveProfile(payload: UserLogin) {
+      this._data = {
+        _id: payload._id,
+        _ho_ten_KH: payload.ho_ten_KH,
+        _so_dien_thoai: payload.so_dien_thoai,
+        _role: payload.role,
+        _dia_chi: payload.dia_chi,
+      };
+    },
+
     logout() {
       window.localStorage.removeItem("accessToken");
-      this._accessToken = "";
-      this._data = {
-        _id: "",
-      };
+      this.setDefault();
     },
   },
 });
