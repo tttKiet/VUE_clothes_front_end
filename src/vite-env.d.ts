@@ -27,4 +27,13 @@ interface Product {
   so_luong_hang: number;
   ghi_chu: string;
   createdAt: string;
+  ProductImage: ProductImage;
+}
+interface IFormState extends Product {
+  image: File | UploadFile;
+}
+interface ProductImage {
+  _id: string;
+  url: string;
+  product_id: string;
 }

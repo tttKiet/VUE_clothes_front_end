@@ -3,10 +3,39 @@
     <h4 class="text-gray-600 text-base text-center pb-4">Thêm hàng hóa mới</h4>
 
     <div class="">
-      <ProductForm />
+      <ProductForm @submit_form_product="submitForm" :loading="loading" />
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import ProductForm from "@/components/ProductForm.vue";
+import productService from "@/services/product-service";
+import { message } from "ant-design-vue";
+import { useRouter } from "vue-router";
+import { ref } from "vue";
+const loading = ref(false);
+const router = useRouter();
+async function submitForm(product: IFormState) {
+  try {
+    loading.value = true;
+    const res = await productService.createOrUpdateProduct(product);
+    if (res.status == 200) {
+      message.success({
+        content: res.data.msg,
+      });
+      router.push("/admin");
+    } else {
+      message.error({
+        content: res.data.msg,
+      });
+    }
+  } catch (error) {
+    const err = error as Error;
+    message.error({
+      content: err.message,
+    });
+  } finally {
+    loading.value = false;
+  }
+}
 </script>

@@ -9,3 +9,7 @@ html {
 .field-error {
   @apply text-sm text-red-500;
 }
+
+.ant-notification {
+  font-size: 14px !important;
+}
