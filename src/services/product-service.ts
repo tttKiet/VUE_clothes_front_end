@@ -4,7 +4,7 @@ import Api from "./const.api";
 class ProductService {
   async createOrUpdateProduct(product: IFormState) {
     var bodyFormData = new FormData();
-
+    if (product._id) bodyFormData.append("_id", product._id);
     bodyFormData.append("ten_HH", product.ten_HH);
     bodyFormData.append("mo_ta_HH", product.mo_ta_HH);
     bodyFormData.append("gia", product.gia.toString());
@@ -32,6 +32,10 @@ class ProductService {
 
   async getProduct() {
     return await axios.get(Api.API_ADMIN_PRODUCT);
+  }
+
+  async getProductById(_id: string) {
+    return await axios.get<ResData<Product>>(`${Api.API_ADMIN_PRODUCT}/${_id}`);
   }
 }
 

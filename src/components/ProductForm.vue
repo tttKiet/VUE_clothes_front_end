@@ -83,6 +83,7 @@
   </Modal>
 </template>
 <script lang="ts" setup>
+import productService from "@/services/product-service";
 import { PlusOutlined } from "@ant-design/icons-vue";
 import {
   Button,
@@ -95,10 +96,42 @@ import {
 import type { Rule } from "ant-design-vue/es/form";
 import { RcFile } from "ant-design-vue/es/vc-upload/interface";
 import type { UnwrapRef } from "vue";
-import { reactive, ref, toRaw } from "vue";
+import { onMounted, reactive, ref, toRaw } from "vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
+const _id = router.currentRoute.value.query._id;
 defineProps<{
   loading: boolean;
 }>();
+
+async function getProductById() {
+  const res = await productService.getProductById(_id as string);
+  if (res.status == 200) {
+    formState._id = res.data.data?._id!;
+    formState.ten_HH = res.data.data?.ten_HH!;
+    formState.so_luong_hang = res.data.data?.so_luong_hang!;
+    formState.mo_ta_HH = res.data.data?.mo_ta_HH!;
+    formState.gia = res.data.data?.gia!;
+    formState.ghi_chu = res.data.data?.ghi_chu!;
+    formState.image = res.data.data?.ProductImage.url!;
+
+    if (res.data.data?.ProductImage.url) {
+      const file: UploadFile = {
+        uid: `${res.data.data?.ProductImage._id}`,
+        name: "image.png",
+        status: "done",
+        url: res.data.data?.ProductImage.url,
+        type: "image/jpeg",
+      };
+      (fileList.value as any) = [file];
+    }
+  }
+}
+
+onMounted(() => {
+  if (_id) getProductById();
+});
+
 const formRef = ref();
 const previewOpen = ref(false);
 
