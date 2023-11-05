@@ -31,7 +31,7 @@ class ProductService {
   }
 
   async getProduct() {
-    return await axios.get(Api.API_ADMIN_PRODUCT);
+    return await axios.get<ResData<Product[]>>(Api.API_ADMIN_PRODUCT);
   }
 
   async getProductById(_id: string) {

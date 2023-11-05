@@ -5,7 +5,12 @@ import routers from "./router";
 import "./style.css";
 import Antd from "ant-design-vue";
 import "ant-design-vue/dist/reset.css";
+
+import VueSweetalert2 from "vue-sweetalert2";
+import "sweetalert2/dist/sweetalert2.min.css";
+
 import { createPinia } from "pinia";
+
 const pinia = createPinia();
 const router = createRouter({
   history: createWebHistory(),
@@ -15,6 +20,7 @@ const router = createRouter({
 const app = createApp(App);
 
 app.use(pinia);
+app.use(VueSweetalert2);
 app.use(router);
 app.use(Antd);
 

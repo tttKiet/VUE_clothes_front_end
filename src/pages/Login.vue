@@ -11,12 +11,12 @@ async function onSubmit(values: any) {
     so_dien_thoai: values.phone,
     password: values.password,
   });
-  if (res?.data?.role === "admin") {
-    router.push("/admin");
-  } else {
-    router.push("/");
-  }
-  console.log(res);
+  if (res)
+    if (res?.data?.role === "admin") {
+      router.push("/admin");
+    } else {
+      router.push("/");
+    }
 }
 </script>
 

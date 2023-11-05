@@ -1,2 +1,6 @@
-<template>dash board</template>
-<script setup lang="ts"></script>
+<template>
+  <ManagerListProduct />
+</template>
+<script setup lang="ts">
+import ManagerListProduct from "@/components/lists/ManagerListProduct.vue";
+</script>
