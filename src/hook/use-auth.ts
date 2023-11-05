@@ -58,24 +58,6 @@ export function useAuth() {
       console.log("error", error);
     });
 
-  // axios
-  //   .get<UserLogin>("/api/v1/auth/profile")
-  //   .then((response) => {
-  //     console.log("response", response);
-  //     saveProfile({
-  //       _id: response.data._id,
-  //       ho_ten_KH: response.data.ho_ten_KH,
-  //       role: response.data.role,
-  //       dia_chi: response.data.dia_chi,
-  //       so_dien_thoai: response.data.so_dien_thoai,
-  //     });
-
-  //     userStoreRef.value = userLoginStore();
-
-  //   })
-  //   .catch((error) => {
-  //     console.log("error", error);
-  //   });
   async function login({
     so_dien_thoai,
     password,
@@ -112,7 +94,9 @@ export function useAuth() {
       const res = await axios.delete<ResData>("/api/v1/auth/logout");
       if (res.status === 200) {
         logoutToStore();
+        return res.data;
       }
+      return null;
     } catch (error) {
       console.log(error);
     }

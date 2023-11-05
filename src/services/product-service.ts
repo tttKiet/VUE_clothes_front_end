@@ -10,7 +10,8 @@ class ProductService {
     bodyFormData.append("gia", product.gia.toString());
     bodyFormData.append("so_luong_hang", product.so_luong_hang.toString());
     bodyFormData.append("ghi_chu", product.ghi_chu);
-    bodyFormData.append("image", product.image.originFileObj);
+    product?.image?.originFileObj &&
+      bodyFormData.append("image", product.image.originFileObj);
     return await axios.post<ResData<Product>>(
       Api.API_ADMIN_PRODUCT,
       bodyFormData,

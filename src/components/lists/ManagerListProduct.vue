@@ -27,6 +27,17 @@
         </a>
       </template>
 
+      <template v-if="column.key === 'gia'">
+        <span class="text-blue-500 mr-1"
+          >{{ record.gia.toLocaleString() }} vnđ</span
+        >
+      </template>
+      <template v-if="column.key === 'so_luong_hang'">
+        <span class="text-pink-500 mr-1 font-semibold">{{
+          record.so_luong_hang
+        }}</span>
+      </template>
+
       <template v-else-if="column.key === 'action'">
         <span>
           <router-link :to="`/admin/manager-product?_id=${record._id}`">

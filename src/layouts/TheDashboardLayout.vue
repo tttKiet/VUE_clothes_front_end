@@ -1,8 +1,68 @@
 <template>
-  <a-layout>
+  <a-layout v-if="user.role == 'admin'">
     <a-layout-header class="header">
-      <div class="logo" />
-      sads
+      <div class="container mx-auto text-white">
+        <div class="flex items-center justify-between">
+          <div>
+            <span>Xin chào!</span>
+            <span class="text-pink-500 font-semibold mx-2">
+              {{ user?.role }}</span
+            >
+          </div>
+          <div>
+            <Popover class="relative">
+              <PopoverButton
+                class="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900"
+              >
+                <span
+                  href="#"
+                  class="-mx-3 flex items-center gap-2 rounded-lg px-3 text-sm font-semibold leading-7 text-gray-900"
+                  >Xin chào
+                  <span class="text-pink-500">{{ user.ho_ten_KH }}!</span>
+                  <img
+                    class="inline-block h-8 w-8 rounded-full ring-2 ring-white"
+                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                    alt=""
+                  />
+                </span>
+              </PopoverButton>
+
+              <transition
+                enter-active-class="transition ease-out duration-200"
+                enter-from-class="opacity-0 translate-y-1"
+                enter-to-class="opacity-100 translate-y-0"
+                leave-active-class="transition ease-in duration-150"
+                leave-from-class="opacity-100 translate-y-0"
+                leave-to-class="opacity-0 translate-y-1"
+              >
+                <PopoverPanel
+                  class="absolute pt-1 text-base right-0 top-full z-10 mt-3 w-screen max-w-[240px] overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5"
+                >
+                  <!-- text-gray-900 -->
+                  <div class="p-1 px-3">
+                    <div
+                      class="group relative text-red-500 flex items-center gap-x-4 rounded-lg p-2 text-sm leading-6 hover:bg-gray-50"
+                    >
+                      <div class="flex w-5 h-5 justify-center rounded-lg">
+                        <PowerIcon class="" />
+                      </div>
+                      <div class="flex-auto">
+                        <button
+                          class="block font-semibold"
+                          @click="handleClickLogout"
+                        >
+                          Đăng xuất
+                          <span class="absolute inset-0" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </PopoverPanel>
+              </transition>
+            </Popover>
+          </div>
+        </div>
+      </div>
     </a-layout-header>
     <div class="min-h-[80vh] pb-20">
       <div class="container mx-auto">
@@ -50,18 +110,77 @@
     </div>
     <Footer></Footer>
   </a-layout>
+  <div v-else class="min-h-screen flex items-center justify-center">
+    <div class="text-red-500">Bạn không có quyền truy cập vào trang này!</div>
+  </div>
+  <Modal
+    :open="open"
+    title="Bạn muốn đăng xuất?"
+    :toggle-show-modal="toggleShowModal"
+    text-cancel="Hủy"
+    text-submit="Đồng ý"
+    :handle-click-ok="handleClickLogoutOk"
+  >
+    <template #body>
+      <p class="text-gray-600">Bạn sẽ đăng xuất khỏi hệ thống.</p>
+    </template>
+  </Modal>
 </template>
 <script lang="ts" setup>
 import Footer from "@/components/Footer.vue";
+import Breadcrumb, { IBreadcrumb } from "@/components/common/Breadcrumbs.vue";
+import { useAuth } from "@/hook/use-auth";
+import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
+import Modal from "@/components/modal/Modal.vue";
+
 import {
-  PlusIcon,
   ListBulletIcon,
+  PlusIcon,
   ShoppingBagIcon,
 } from "@heroicons/vue/24/solid";
-import Breadcrumb, { IBreadcrumb } from "@/components/common/Breadcrumbs.vue";
+import { ref } from "vue";
+
 import { computed } from "@vue/reactivity";
 import { useRouter } from "vue-router";
+import Swal from "sweetalert2";
+
+const open = ref(false);
+const { user, logout } = useAuth();
 const router = useRouter();
+
+function toggleShowModal() {
+  open.value = !open.value;
+}
+
+async function handleClickLogoutOk() {
+  const role = user.value.role;
+
+  await logout();
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
+
+  Toast.fire({
+    icon: "success",
+    title: "Đã đăng xuất",
+  });
+  if (role === "admin") {
+    router.push("/");
+  }
+
+  toggleShowModal();
+}
+async function handleClickLogout() {
+  toggleShowModal();
+}
 const breadcrumbs: IBreadcrumb[] = [
   {
     name: "Dash board",
@@ -70,21 +189,3 @@ const breadcrumbs: IBreadcrumb[] = [
 ];
 const url = computed(() => router.currentRoute.value.fullPath);
 </script>
-<style scoped>
-#components-layout-demo-top-side .logo {
-  float: left;
-  width: 120px;
-  height: 31px;
-  margin: 16px 24px 16px 0;
-  background: rgba(255, 255, 255, 0.3);
-}
-
-.ant-row-rtl #components-layout-demo-top-side .logo {
-  float: right;
-  margin: 16px 0 16px 24px;
-}
-
-.site-layout-background {
-  background: #fff;
-}
-</style>

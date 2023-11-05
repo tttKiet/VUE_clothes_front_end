@@ -11,8 +11,8 @@
 import ProductForm from "@/components/ProductForm.vue";
 import productService from "@/services/product-service";
 import { message } from "ant-design-vue";
-import { useRouter } from "vue-router";
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 const loading = ref(false);
 const router = useRouter();
 async function submitForm(product: IFormState) {
