@@ -21,6 +21,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@pages/Register.vue"),
   },
   {
+    path: "/cart",
+    name: "Cart",
+    component: () => import("@pages/CartPage.vue"),
+  },
+  {
     path: "/admin",
     name: "Admin",
     component: () => import("@/pages/admin/Dashboard.vue"),

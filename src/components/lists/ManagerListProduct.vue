@@ -172,7 +172,6 @@ async function fetchProduct() {
         };
       }) || [];
   }
-  console.log("res", res);
 }
 
 onMounted(() => {

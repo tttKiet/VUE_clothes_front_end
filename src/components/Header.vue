@@ -130,6 +130,10 @@
                     alt=""
                   />
                 </span>
+
+                <a-divider type="vertical" />
+
+                <CartShoppingBadge />
               </PopoverButton>
 
               <transition
@@ -163,9 +167,9 @@
                     </div>
                   </div>
                   <div
-                    class="divide-x text-sm text-center px-4 py-1 divide-gray-900/5 bg-gray-50"
+                    class="text-sm flex items-center justify-center text-center px-4 py-1 bg-gray-50"
                   >
-                    Thanks for shopping!
+                    * * *
                   </div>
                 </PopoverPanel>
               </transition>
@@ -305,6 +309,7 @@ import {
 } from "@heroicons/vue/20/solid";
 import { useAuth } from "@/hook/use-auth";
 import Modal from "./modal/Modal.vue";
+import CartShoppingBadge from "./CartShoppingBadge.vue";
 const { user, logout } = useAuth();
 const open = ref(false);
 

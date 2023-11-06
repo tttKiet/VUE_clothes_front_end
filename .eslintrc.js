@@ -5,5 +5,4 @@ module.exports = {
     "@vue/airbnb",
     "@vue/typescript/recommended",
   ],
-
 };

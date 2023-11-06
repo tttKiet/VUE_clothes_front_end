@@ -29,6 +29,13 @@ interface Product {
   createdAt: string;
   ProductImage: ProductImage;
 }
+
+interface ProductCart {
+  product_id: Product;
+  so_luong:number;
+  user_id: string;
+}
+
 interface IFormState extends Product {
   image: File | UploadFile;
 }
