@@ -14,6 +14,7 @@ class CartService {
     return await axios.post<ResData>(Api.API_CART, {
       product_id,
       so_luong,
+      size,
     });
   }
 

@@ -198,8 +198,9 @@
                         </div>
 
                         <button
-                          type="submit"
+                          type="button"
                           class="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                          @click="handleClickAddCart"
                         >
                           Thêm vào giỏ hàng
                         </button>
@@ -234,6 +235,22 @@ import InputNumberChoose from "./InputNumberChoose.vue";
 import { CurrencyDollarIcon } from "@heroicons/vue/24/outline";
 import { ValueType } from "ant-design-vue/es/input-number/src/utils/MiniDecimal";
 import { computed } from "vue";
+
+const emit = defineEmits<{
+  (
+    e: "addProductInCart",
+    {
+      size,
+      product_id,
+      so_luong,
+    }: {
+      size: string;
+      product_id: string;
+      so_luong: number;
+    },
+  ): void;
+}>();
+
 const props = defineProps<{
   open: boolean;
   handleClose: () => void;
@@ -275,6 +292,16 @@ const sizes = [
   { name: "XXL", inStock: true },
   { name: "XXXL", inStock: false },
 ];
+
+function handleClickAddCart() {
+  console.log("selectedSize", selectedSize.value.name);
+  emit("addProductInCart", {
+    product_id: props.product._id,
+    size: selectedSize.value.name,
+    so_luong: Number.parseInt(number.value.toString()),
+  });
+}
+
 function handleChangeNumber(value: ValueType) {
   number.value = value;
 }

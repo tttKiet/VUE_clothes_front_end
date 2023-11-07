@@ -41,6 +41,7 @@
       :open="openDialog"
       :handle-close="toggleDialogCart"
       :product="product"
+      @add-product-in-cart="addProductInCart"
     />
   </div>
 </template>
@@ -53,7 +54,48 @@ import {
   CurrencyDollarIcon,
 } from "@heroicons/vue/24/outline";
 import { Rate } from "ant-design-vue";
+import { useToast } from "vue-toastification";
+import cartService from "@/services/cart-service";
 const openDialog = ref(false);
+const toast = useToast();
+function addProductInCart({
+  size,
+  product_id,
+  so_luong,
+}: {
+  size: string;
+  product_id: string;
+  so_luong: number;
+}) {
+  cartService
+    .addProduct({
+      product_id: product_id,
+      size: size as Sizes,
+      so_luong: so_luong,
+    })
+    .then((res) => {
+      if (res.status == 200) {
+        openDialog.value = false;
+
+        toast("Đã thêm vào giỏ hàng!", {
+          timeout: 3000,
+          closeOnClick: true,
+          pauseOnFocusLoss: true,
+          pauseOnHover: true,
+          draggable: true,
+          draggablePercent: 0.6,
+          showCloseButtonOnHover: false,
+          hideProgressBar: false,
+          closeButton: "button",
+          icon: true,
+          rtl: false,
+        });
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
 
 function toggleDialogCart() {
   openDialog.value = !openDialog.value;

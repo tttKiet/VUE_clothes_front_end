@@ -4,12 +4,15 @@ import App from "./App.vue";
 import routers from "./router";
 import "./style.css";
 import Antd from "ant-design-vue";
-import "ant-design-vue/dist/reset.css";
 
 import VueSweetalert2 from "vue-sweetalert2";
-import "sweetalert2/dist/sweetalert2.min.css";
 
+import "sweetalert2/dist/sweetalert2.min.css";
+import "ant-design-vue/dist/reset.css";
 import { createPinia } from "pinia";
+
+import Toast, { PluginOptions } from "vue-toastification";
+import "vue-toastification/dist/index.css";
 
 const pinia = createPinia();
 const router = createRouter({
@@ -19,6 +22,9 @@ const router = createRouter({
 
 const app = createApp(App);
 
+const options: PluginOptions = {};
+
+app.use(Toast, options);
 app.use(pinia);
 app.use(VueSweetalert2);
 app.use(router);

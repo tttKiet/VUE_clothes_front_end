@@ -29,17 +29,17 @@
     <div v-else class="container mx-auto px-2 py-10">
       <div
         v-if="products?.length === 0"
-        class="text-center flex-1 px-8 py-6 flex-wrap divide-gray-200 rounded-2xl shadow-md shadow-gray bg-white"
+        class="text-center flex-1 px-8 py-12 pt-16 flex-wrap divide-gray-200 rounded-2xl shadow-md shadow-gray bg-white"
       >
         Giỏ hàng trống... hãy thêm hàng hóa vào giỏ hàng!
         <br />
         <RouterLink to="/"
-          ><div class="mt-2 text-blue-500 font-medium">Thêm sản phẩm ngay</div>
+          ><div class="mt-4 text-blue-500 font-medium">Thêm sản phẩm ngay</div>
         </RouterLink>
         <div
-          class="min-h-[320px] mt-5 border rounded-xl text-gray-500 flex items-center justify-center"
+          class="min-h-[300px] mt-5 rounded-xl text-gray-500 flex items-center justify-center"
         >
-          Trống
+          <img :src="cart_empty" />
         </div>
       </div>
       <div v-else>
@@ -130,6 +130,7 @@ import { useAuth } from "@/hook/use-auth";
 import { Button } from "ant-design-vue";
 import { ShoppingCartIcon } from "@heroicons/vue/24/outline";
 import { RouterLink } from "vue-router";
+import cart_empty from "@/assets/images/empty_cart.jpg";
 const { user } = useAuth();
 const loading = ref(false);
 
