@@ -2,7 +2,7 @@
   <div class="relative min-h-screen bg-gray-900 overflow-hidden">
     <svg
       viewBox="0 0 1024 1024"
-      class="absolute left-0 top-1/2 z-10 h-[64rem] w-[64rem] -translate-x-1/2 [mask-image:radial-gradient(closest-side,white,transparent)]"
+      class="absolute left-0 top-1/2 z-0 h-[64rem] w-[64rem] -translate-x-1/2 [mask-image:radial-gradient(closest-side,white,transparent)]"
       aria-hidden="true"
     >
       <circle
@@ -19,7 +19,10 @@
         </radialGradient>
       </defs>
     </svg>
-    <div v-if="!user._id" class="max-h-screen mx-auto text-white text-clip">
+    <div
+      v-if="!user._id"
+      class="min-h-screen flex items-center justify-center mx-auto text-white"
+    >
       Bạn chưa đăng nhập
     </div>
 
@@ -67,6 +70,7 @@
                 :product="product"
                 @setLoading="setLoading"
                 @delete-product="deleteProduct"
+                @fetch-product="fetchProduct"
               />
             </li>
           </ul>

@@ -30,10 +30,14 @@ interface Product {
   ProductImage: ProductImage;
 }
 
+type Sizes = "XXS" | "XS" | "S" | "M" | "L" | "XL" | "XXL";
+
+
 interface ProductCart {
   product_id: Product;
   so_luong:number;
   user_id: string;
+  size:Sizes;
 }
 
 interface IFormState extends Product {

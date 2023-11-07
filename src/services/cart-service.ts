@@ -5,9 +5,11 @@ class CartService {
   async addProduct({
     product_id,
     so_luong,
+    size,
   }: {
     product_id: string;
     so_luong: number;
+    size: Sizes;
   }) {
     return await axios.post<ResData>(Api.API_CART, {
       product_id,
@@ -22,13 +24,19 @@ class CartService {
   async updateProduct({
     product_id,
     so_luong,
+    size,
+    size_old,
   }: {
     product_id: string;
-    so_luong: number;
+    so_luong?: number;
+    size?: Sizes;
+    size_old?: Sizes;
   }) {
     return await axios.patch<ResData>(Api.API_CART, {
       product_id,
       so_luong,
+      size,
+      size_old,
     });
   }
 
