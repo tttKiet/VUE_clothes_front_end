@@ -13,6 +13,8 @@
     "@heroicons/vue": "^2.0.18",
     "ant-design-vue": "^4.0.6",
     "axios": "^1.6.0",
+    "mitt": "^3.0.1",
+    "moment": "^2.29.4",
     "pinia": "^2.1.7",
     "url": "^0.11.3",
     "vee-validate": "^4.11.8",

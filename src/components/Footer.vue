@@ -22,27 +22,26 @@
       >
         <div class="max-w-xl lg:max-w-lg">
           <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            Subscribe to our newsletter.
+            Hợp tác với chúng tôi.
           </h2>
           <p class="mt-4 text-lg leading-8 text-gray-300">
-            Nostrud amet eu ullamco nisi aute in ad minim nostrud adipisicing
-            velit quis. Duis tempor incididunt dolore.
+            Email hợp tác của bạn sẽ được lưu lạ và chúng tôi sẽ liên hệ bạn.
           </p>
           <div class="mt-6 flex max-w-md gap-x-4">
-            <label for="email-address" class="sr-only">Email address</label>
+            <label for="email-address" class="sr-only">Email địa chỉ</label>
             <input
               id="email-address"
               name="email"
               type="email"
               autocomplete="email"
               class="min-w-0 flex-auto rounded-md border-0 bg-white/5 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
-              placeholder="Enter your email"
+              placeholder="Nhập email của bạn"
             />
             <button
               type="submit"
               class="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
             >
-              Subscribe
+              Gửi
             </button>
           </div>
         </div>
@@ -51,20 +50,19 @@
             <div class="rounded-md bg-white/5 p-2 ring-1 ring-white/10">
               <CalendarDaysIcon class="h-6 w-6 text-white" aria-hidden="true" />
             </div>
-            <dt class="mt-4 font-semibold text-white">Weekly articles</dt>
+            <dt class="mt-4 font-semibold text-white">Bài viết hàng tuần</dt>
             <dd class="mt-2 leading-7 text-gray-400">
-              Non laboris consequat cupidatat laborum magna. Eiusmod non irure
-              cupidatat duis commodo amet.
+              Sản phẩm được lên bài hàng tuần giúp khách hàng luôn cập nhật sản
+              phẩm mới nhất.
             </dd>
           </div>
           <div class="flex flex-col items-start">
             <div class="rounded-md bg-white/5 p-2 ring-1 ring-white/10">
               <HandRaisedIcon class="h-6 w-6 text-white" aria-hidden="true" />
             </div>
-            <dt class="mt-4 font-semibold text-white">No spam</dt>
+            <dt class="mt-4 font-semibold text-white">Không thư rác</dt>
             <dd class="mt-2 leading-7 text-gray-400">
-              Officia excepteur ullamco ut sint duis proident non adipisicing.
-              Voluptate incididunt anim.
+              Không gửi email liên tục đến hệ thống.
             </dd>
           </div>
         </dl>

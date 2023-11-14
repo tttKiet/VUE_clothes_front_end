@@ -43,99 +43,164 @@
         </div>
       </div>
       <div v-else>
-        <h4
-          class="text-white text-xl font-semibold mb-5 flex items-center gap-2"
+        <div
+          class="my-5 flex justify-between items-center text-sm text-gray-500"
         >
-          <ShoppingCartIcon class="w-6 h-6" />
-          Giỏ hàng của bạn
-        </h4>
+          <router-link
+            to="/"
+            class="font-medium text-white transition-all hover:text-indigo-500 w-[140px]"
+          >
+            <span aria-hidden="true" class="mr-1"> &larr;</span>
+            Tiếp tục mua sắm
+          </router-link>
+          <h4
+            class="text-white text-xl mb-0 font-semibold flex text-center items-center gap-2"
+          >
+            <ShoppingCartIcon class="w-6 h-6" />
+            Giỏ hàng của bạn
+          </h4>
+          <div class="w-[140px]"></div>
+        </div>
 
         <div class="flex gap-5">
-          <ul
-            class="divide-y flex-1 px-8 py-6 flex-wrap divide-gray-200 rounded-2xl shadow-md shadow-gray bg-white"
+          <div
+            class="p-2 rounded-2xl pr-1 shadow-gray bg-white flex-1 px-8 py-6 flex-wrap shadow-md"
           >
-            <li class="grid grid-cols-12 py-3 pb-6 font-semibold">
-              <div class="col-span-4">Hàng hóa</div>
-              <div class="col-span-2">Giá</div>
-              <div class="col-span-3">Số lượng</div>
-              <div class="col-span-3">Tổng</div>
-            </li>
-            <li
-              v-for="product in products"
-              :key="product.product_id._id"
-              class="py-6 grid grid-cols-12"
+            <ul
+              class="divide-y divide-gray-200 max-h-[700px] pr-8 overflow-y-scroll"
             >
-              <ProductCartItem
-                :loading="loading"
-                :product="product"
-                @setLoading="setLoading"
-                @delete-product="deleteProduct"
-                @fetch-product="fetchProduct"
-              />
-            </li>
-          </ul>
+              <li class="grid grid-cols-12 py-3 pb-6 font-semibold">
+                <div class="col-span-1">
+                  <Checkbox
+                    v-model:checked="checkOrder.checkAll"
+                    @change="onCheckAllChange"
+                    class="flex items-center text-sm"
+                  >
+                    All
+                  </Checkbox>
+                </div>
+                <div class="col-span-4 flex items-center">Hàng hóa</div>
+                <div class="col-span-2 flex items-center">Giá</div>
+                <div class="col-span-3 flex items-center">Số lượng</div>
+                <div class="col-span-2 flex items-center">Tổng</div>
+              </li>
+              <li
+                v-for="product in products"
+                :key="product.product_id._id"
+                class="py-6 grid grid-cols-12 relative"
+              >
+                <ProductCartItem
+                  :checked="
+                    checkOrder.checkedList.some((p) => product._id == p)
+                  "
+                  @change-check-order="onChangeOrderCheck"
+                  :loading="loading"
+                  :product="product"
+                  @setLoading="setLoading"
+                  @delete-product="deleteProduct"
+                  @fetch-product="fetchProduct"
+                />
+              </li>
+            </ul>
+          </div>
 
-          <div class="min-w-[340px] rounded-2xl shadow-md bg-white px-6 py-4">
-            <div class="my-1">
-              <h3 class="mb-6 font-medium text-black text-xl text-center">
-                Tổng quát
-              </h3>
-            </div>
-            <div class="flex items-center justify-between gap-1 py-2">
-              <span>Tổng sản phẩm</span>
-              <span>$2</span>
-            </div>
-            <div class="flex items-center justify-between gap-1 py-2">
-              <span>Tổng sản phẩm</span>
-              <span>12</span>
-            </div>
-            <div class="flex items-center justify-between gap-1 py-2">
-              <span>Giảm giá</span>
-              <span>0%</span>
-            </div>
-            <hr class="my-2" />
-            <div class="flex items-center justify-between gap-1 py-2">
-              <span class="font-semibold">Tổng cộng</span>
-              <span class="font-semibold">$12000</span>
-            </div>
-            <div class="mt-4">
-              <Button type="primary" class="w-full">Đặt hàng</Button>
-            </div>
+          <div>
             <div
-              class="mt-5 flex justify-center text-center text-sm text-gray-500"
+              class="min-w-[340px] rounded-2xl shadow-md bg-white px-6 py-4 pb-6"
             >
-              <p>
-                hoặc
-                <router-link
-                  to="/"
-                  type="button"
-                  class="font-medium text-indigo-600 hover:text-indigo-500"
+              <div class="my-1">
+                <h3 class="mb-6 font-medium text-black text-xl text-center">
+                  Tổng quát
+                </h3>
+              </div>
+              <div class="flex items-center justify-between gap-1 py-2">
+                <span>Tổng mặc hàng</span>
+                <span>{{ totalProduct }}</span>
+              </div>
+              <div class="flex items-center justify-between gap-1 py-2">
+                <span>Số lượng sản phẩm</span>
+                <span>{{ totalProductRaw }}</span>
+              </div>
+              <div class="flex items-center justify-between gap-1 py-2">
+                <span>Ship</span>
+                <span>$0</span>
+              </div>
+              <div class="flex items-center justify-between gap-1 py-2">
+                <span>Giảm giá</span>
+                <span>0%</span>
+              </div>
+              <hr class="my-2" />
+              <div class="flex items-center justify-between gap-1 py-2">
+                <span class="font-semibold">Tổng cộng</span>
+                <span class="font-semibold"
+                  >${{ totalPrice.toLocaleString() }}</span
                 >
-                  Tiếp tục mua sắm
-                  <span aria-hidden="true"> &rarr;</span>
-                </router-link>
-              </p>
+              </div>
+              <div class="mt-4">
+                <Button
+                  type="primary"
+                  :disabled="productOrderConfirm.length == 0"
+                  html-type="button"
+                  @click="order"
+                  class="w-full"
+                  >Đặt hàng</Button
+                >
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+
+  <ModalConfirmOrder
+    @confirmed="handleConfirmOrder"
+    :total-product="totalProduct"
+    :total-product-raw="totalProductRaw"
+    :totalPrice="totalPrice"
+    :cart-items="productOrderConfirm"
+    :open="isOpenModalConfirm"
+    :toggle-show-modal="toggleModalConfirm"
+  />
 </template>
 <script setup lang="ts">
 import cartService from "@/services/cart-service";
-import { onMounted, ref } from "vue";
+import { computed, onMounted, reactive, ref, watch } from "vue";
 import ProductCartItem from "@/components/ProductCartItem.vue";
 import { useAuth } from "@/hook/use-auth";
-import { Button } from "ant-design-vue";
+import { Button, Checkbox } from "ant-design-vue";
 import { ShoppingCartIcon } from "@heroicons/vue/24/outline";
 import { RouterLink } from "vue-router";
 import cart_empty from "@/assets/images/empty_cart.jpg";
+import ModalConfirmOrder from "@/components/ModalConfirmOrder.vue";
+import userService from "@/services/user-service";
+import { toastMsgFromPromise } from "@/untils";
 const { user } = useAuth();
+
 const loading = ref(false);
 
+const isOpenModalConfirm = ref(false);
+
+function toggleModalConfirm() {
+  isOpenModalConfirm.value = !isOpenModalConfirm.value;
+}
+
+async function handleConfirmOrder(data: {
+  productCartIds: string[];
+  so_dien_thoai_dat_hang: string;
+  dia_chi_nhan: string;
+}) {
+  loading.value = true;
+  const api = userService.orderProductInCart(data);
+  const res = await toastMsgFromPromise(api);
+  if (res.status == 200) {
+    fetchProduct();
+    toggleModalConfirm();
+  }
+  loading.value = false;
+}
+
 function setLoading(isLoading: boolean) {
-  console.log("isLoading", isLoading);
   loading.value = isLoading;
 }
 
@@ -144,6 +209,8 @@ function fetchProduct() {
   cartService
     .getProduct()
     .then((res) => {
+      console.log("res", res.data);
+
       if (res.status === 200) {
         products.value = res.data.data;
       }
@@ -162,6 +229,75 @@ async function deleteProduct({ product_id }: { product_id: string }) {
     })
     .catch((err) => console.log(err));
 }
+
+const plainOptions = computed(
+  (): string[] => products.value?.map((product) => product._id!) || [],
+);
+
+function order() {
+  toggleModalConfirm();
+}
+
+const totalProduct = computed((): number => checkOrder.checkedList.length);
+const totalProductRaw = computed(
+  (): number =>
+    products.value
+      ?.filter((p) => checkOrder.checkedList.includes(p._id!))
+      .reduce((init, p) => {
+        return init + p.so_luong;
+      }, 0) || 0,
+);
+
+const productOrderConfirm = computed(
+  (): ProductCart[] =>
+    products.value?.filter((p) => checkOrder.checkedList.includes(p._id!)) ||
+    [],
+);
+const checkOrder = reactive<{
+  checkAll: boolean;
+  checkedList: string[];
+}>({
+  checkAll: false,
+  checkedList: [],
+});
+
+const totalPrice = computed((): number => {
+  return (
+    products.value
+      ?.filter((p) => checkOrder.checkedList.includes(p._id!))
+      .reduce((init, p) => {
+        return init + p.so_luong * p.product_id.gia;
+      }, 0) || 0
+  );
+});
+
+function onChangeOrderCheck({
+  cart_id,
+  checked,
+}: {
+  cart_id: string;
+  checked: boolean;
+}) {
+  const existed = checkOrder.checkedList.some((c) => c == cart_id);
+  if (checked) {
+    if (!existed) checkOrder.checkedList = [...checkOrder.checkedList, cart_id];
+  } else {
+    if (existed)
+      checkOrder.checkedList = checkOrder.checkedList.filter(
+        (c) => c != cart_id,
+      );
+  }
+}
+
+const onCheckAllChange = (e: any) => {
+  checkOrder.checkedList = e.target.checked ? plainOptions.value : [];
+};
+watch(
+  () => checkOrder.checkedList,
+  (val) => {
+    checkOrder.checkAll = val.length === plainOptions.value.length;
+  },
+);
 
 onMounted(() => {
   fetchProduct();

@@ -92,29 +92,6 @@ const columns = [
 
 const data = ref<any>([]);
 
-// const data = [
-//   {
-//     key: 1,
-//     _id: "6544751e6c7aaf75d2ba4b69",
-//     ten_HH: "sadsa",
-//     mo_ta_HH: "sadadsad",
-//     gia: 2,
-//     so_luong_hang: 2,
-//     ghi_chu: "sadsa",
-//     createdAt: "2023-11-03T04:20:46.813Z",
-//     updatedAt: "2023-11-03T05:42:05.472Z",
-//     __v: 0,
-//     ProductImage: {
-//       _id: "6544751e6c7aaf75d2ba4b6b",
-//       url: "undefined",
-//       product_id: "6544751e6c7aaf75d2ba4b69",
-//       createdAt: "2023-11-03T04:20:46.854Z",
-//       updatedAt: "2023-11-03T05:42:05.396Z",
-//       __v: 0,
-//     },
-//   },
-// ];
-
 function hanleCLickDelete(_id: string) {
   const swalWithBootstrapButtons = Swal.mixin({
     customClass: {

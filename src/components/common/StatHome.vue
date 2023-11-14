@@ -21,8 +21,8 @@
 
 <script setup lang="ts">
 const stats = [
-  { id: 1, name: "Transactions every 24 hours", value: "44 million" },
-  { id: 2, name: "Assets under holding", value: "$119 trillion" },
-  { id: 3, name: "New users annually", value: "46,000" },
+  { id: 1, name: "Số đơn hàng đã bán trong 24h", value: "44 triệu" },
+  { id: 2, name: "Số tiền thu nhập", value: "$119 triệu đô" },
+  { id: 3, name: "Số thành viên mới", value: "20+" },
 ];
 </script>

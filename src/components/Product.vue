@@ -30,10 +30,12 @@
     </div>
   </div>
   <div class="flex items-center justify-center gap-1">
-    <Button type="dashed" class="flex-1">Mua ngay</Button>
+    <Button type="dashed" class="flex-1" @click="handleCLickBuy"
+      >Mua ngay</Button
+    >
     <Button
       type="default"
-      @click="toggleDialogCart"
+      @click="handleCLickAddCart"
       class="flex items-center justify-center gap-1"
       >+<ShoppingCartIcon class="w-4 h-4" />
     </Button>
@@ -48,16 +50,40 @@
 <script setup lang="ts">
 import ProductDialog from "@comp/ProductDialog.vue";
 import { ref } from "vue";
+import { emitter } from "@/untils/emitterGlobal.js";
 import { Button } from "ant-design-vue";
 import {
   ShoppingCartIcon,
   CurrencyDollarIcon,
 } from "@heroicons/vue/24/outline";
 import { Rate } from "ant-design-vue";
-import { useToast } from "vue-toastification";
+import { POSITION, useToast } from "vue-toastification";
 import cartService from "@/services/cart-service";
+import { useAuth } from "@/hook/use-auth";
 const openDialog = ref(false);
+const { user } = useAuth();
 const toast = useToast();
+
+function handleCLickBuy() {
+  if (user.value?._id) {
+    // handle
+  } else {
+    toast("Bạn chưa đăng nhập!", {
+      timeout: 3000,
+      closeOnClick: true,
+      pauseOnFocusLoss: true,
+      position: POSITION.BOTTOM_RIGHT,
+      pauseOnHover: true,
+      draggable: true,
+      draggablePercent: 0.6,
+      showCloseButtonOnHover: false,
+      hideProgressBar: false,
+      closeButton: "button",
+      icon: true,
+    });
+  }
+}
+
 function addProductInCart({
   size,
   product_id,
@@ -76,11 +102,12 @@ function addProductInCart({
     .then((res) => {
       if (res.status == 200) {
         openDialog.value = false;
-
+        emitter.emit("changeCart");
         toast("Đã thêm vào giỏ hàng!", {
           timeout: 3000,
           closeOnClick: true,
           pauseOnFocusLoss: true,
+          position: POSITION.BOTTOM_RIGHT,
           pauseOnHover: true,
           draggable: true,
           draggablePercent: 0.6,
@@ -95,6 +122,26 @@ function addProductInCart({
     .catch((err) => {
       console.log(err);
     });
+}
+
+function handleCLickAddCart() {
+  if (user.value?._id) {
+    toggleDialogCart();
+  } else {
+    toast("Bạn chưa đăng nhập!", {
+      timeout: 3000,
+      closeOnClick: true,
+      pauseOnFocusLoss: true,
+      position: POSITION.BOTTOM_RIGHT,
+      pauseOnHover: true,
+      draggable: true,
+      draggablePercent: 0.6,
+      showCloseButtonOnHover: false,
+      hideProgressBar: false,
+      closeButton: "button",
+      icon: true,
+    });
+  }
 }
 
 function toggleDialogCart() {

@@ -8,11 +8,7 @@
         <div class="flex lg:flex-1">
           <a href="#" class="-m-1.5 p-1.5">
             <span class="sr-only">Clothes</span>
-            <img
-              class="h-8 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-              alt=""
-            />
+            <img class="h-8 w-auto" :src="logo" alt="Logo" />
           </a>
         </div>
         <div class="flex lg:hidden">
@@ -133,7 +129,7 @@
 
                 <a-divider type="vertical" />
 
-                <CartShoppingBadge />
+                <CartShoppingBadge :total-cart="totalCart" />
               </PopoverButton>
 
               <transition
@@ -280,7 +276,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import logo from "@/assets/images/shirt.png";
+import { useAuth } from "@/hook/use-auth";
+import cartService from "@/services/cart-service";
+import { emitter } from "@/untils/emitterGlobal.js";
 import {
   Dialog,
   DialogPanel,
@@ -293,23 +292,16 @@ import {
   PopoverPanel,
 } from "@headlessui/vue";
 import {
-  ArrowPathIcon,
-  Bars3Icon,
-  ChartPieIcon,
-  CursorArrowRaysIcon,
-  FingerPrintIcon,
-  SquaresPlusIcon,
-  XMarkIcon,
-} from "@heroicons/vue/24/outline";
-import {
   ChevronDownIcon,
   PhoneIcon,
   PlayCircleIcon,
   PowerIcon,
 } from "@heroicons/vue/20/solid";
-import { useAuth } from "@/hook/use-auth";
-import Modal from "./modal/Modal.vue";
+import { Bars3Icon, ChartPieIcon, XMarkIcon } from "@heroicons/vue/24/outline";
+import { onMounted, ref } from "vue";
 import CartShoppingBadge from "./CartShoppingBadge.vue";
+import Modal from "./modal/Modal.vue";
+
 const { user, logout } = useAuth();
 const open = ref(false);
 
@@ -319,43 +311,40 @@ function toggleShowModal() {
 
 const products = [
   {
-    name: "Analytics",
-    description: "Get a better understanding of your traffic",
+    name: "Sản phẩm nổi bậc",
+    description: "Sản phẩm được nhiều người mua và đánh giá cao.",
     href: "#",
     icon: ChartPieIcon,
   },
-  {
-    name: "Engagement",
-    description: "Speak directly to your customers",
-    href: "#",
-    icon: CursorArrowRaysIcon,
-  },
-  {
-    name: "Security",
-    description: "Your customers’ data will be safe and secure",
-    href: "#",
-    icon: FingerPrintIcon,
-  },
-  {
-    name: "Integrations",
-    description: "Connect with third-party tools",
-    href: "#",
-    icon: SquaresPlusIcon,
-  },
-  {
-    name: "Automations",
-    description: "Build strategic funnels that will convert",
-    href: "#",
-    icon: ArrowPathIcon,
-  },
 ];
 const callsToAction = [
-  { name: "Watch demo", href: "#", icon: PlayCircleIcon },
-  { name: "Contact sales", href: "#", icon: PhoneIcon },
+  { name: "Xem demo", href: "#", icon: PlayCircleIcon },
+  { name: "Liên hệ với nhân viên", href: "#", icon: PhoneIcon },
 ];
 
 const mobileMenuOpen = ref(false);
+const totalCart = ref(0);
 
+const fetchProductCart = () => {
+  cartService
+    .getProduct()
+    .then((res) => {
+      if (res.status == 200) {
+        totalCart.value =
+          res.data.data?.reduce((init, value) => init + value.so_luong, 0) || 0;
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+onMounted(() => {
+  emitter.on("changeCart", () => {
+    fetchProductCart();
+  });
+  fetchProductCart();
+});
 async function handleClickLogoutOk() {
   await logout();
   toggleShowModal();

@@ -94,6 +94,7 @@
 import ListProduct from "@comp/lists/ListProduct.vue";
 import StatHome from "@comp/common/StatHome.vue";
 import Breadcrumbs, { IBreadcrumb } from "@comp/common/Breadcrumbs.vue";
+
 const breadcrumbs: IBreadcrumb[] = [
   {
     name: "Trang chủ",

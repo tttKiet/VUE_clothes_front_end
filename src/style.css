@@ -6,6 +6,29 @@ html {
   scroll-behavior: smooth;
 }
 
+html *::-webkit-scrollbar {
+  border-radius: 2px;
+  display: block;
+  transition: all 0.3s ease;
+  width: 4px;
+  left: 0;
+}
+
+html *::-webkit-scrollbar-button {
+  display: none;
+}
+
+html *::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(22, 24, 35, 0.26);
+  transition: all 0.3s ease;
+}
+
+html * ::-webkit-scrollbar-track {
+  border-radius: 0;
+  background-color: rgba(0, 0, 0, 0);
+}
+
 .field-error {
   @apply text-sm text-red-500;
 }
@@ -18,4 +41,9 @@ html {
   color: #fff;
   background-color: #1677ff !important;
   box-shadow: 0 2px 0 rgba(5, 145, 255, 0.1);
+}
+
+.ant-btn-primary:disabled {
+  background-color: rgba(0, 0, 0, 0.04) !important;
+  border-color: #d9d9d9 !important;
 }

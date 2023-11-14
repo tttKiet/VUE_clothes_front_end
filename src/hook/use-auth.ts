@@ -1,6 +1,7 @@
 import axios from "@/axios";
 // import axios from "axios";
 import { userLoginStore } from "@/pinia/store";
+import { toastMsgFromPromise } from "@/untils";
 import { computed, reactive, ref, watch } from "vue";
 interface TokenPayloadLogin extends UserLogin {
   accessToken: string;
@@ -36,7 +37,6 @@ export function useAuth() {
   axios
     .get<ResData<UserLogin>>("/api/v1/auth/profile")
     .then((response) => {
-      console.log(response.data);
       if (response.status === 200) {
         userLogin.value = {
           _id: response.data?.data?._id!,
@@ -65,33 +65,28 @@ export function useAuth() {
     so_dien_thoai: string;
     password: string;
   }) {
-    try {
-      const res = await axios.post<ResData<TokenPayloadLogin>>(
-        "/api/v1/auth/login",
-        {
-          so_dien_thoai,
-          password,
+    const api = axios.post<ResData<TokenPayloadLogin>>("/api/v1/auth/login", {
+      so_dien_thoai,
+      password,
+    });
+    const res = await toastMsgFromPromise(api);
+    if (res.status === 200) {
+      saveLoginToStore({
+        accessToken: res.data.data?.accessToken!,
+        data: {
+          ...res.data.data!,
         },
-      );
-
-      if (res.status === 200) {
-        saveLoginToStore({
-          accessToken: res.data.data?.accessToken!,
-          data: {
-            ...res.data.data!,
-          },
-        });
-        return res.data;
-      }
-      return false;
-    } catch (error) {
-      console.log(error);
+      });
+      return res.data;
     }
+    return false;
   }
 
   async function logout() {
     try {
-      const res = await axios.delete<ResData>("/api/v1/auth/logout");
+      const api = axios.delete<ResData>("/api/v1/auth/logout");
+      const res = await toastMsgFromPromise(api);
+
       if (res.status === 200) {
         logoutToStore();
         return res.data;

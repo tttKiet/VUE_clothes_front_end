@@ -9,8 +9,9 @@ interface ResData<T = any | []> {
 type Role = "admin" | "user";
 
 interface User {
-  _id: string;
+  _id?: string;
   ho_ten_KH: string;
+  password?: string;
   so_dien_thoai: string;
   dia_chi: string;
 }
@@ -34,8 +35,10 @@ type Sizes = "XXS" | "XS" | "S" | "M" | "L" | "XL" | "XXL";
 
 
 interface ProductCart {
+  _id?:string;
   product_id: Product;
   so_luong:number;
+  gia_Dat_hang: number;
   user_id: string;
   size:Sizes;
 }
@@ -47,4 +50,30 @@ interface ProductImage {
   _id: string;
   url: string;
   product_id: string;
+}
+
+interface Order {
+  _id?: string;
+  user_id: User;
+  staff_id?: string;
+  ngay_dat_hang: Date;
+  so_dien_thoai_dat_hang: string;
+  dia_chi_nhan: string;
+  ngay_giao_hang: Date;
+  trang_thai_DH: string;
+}
+
+
+interface OrderDetails {
+  _id?: string;
+  order_id: string;
+  size: string;
+  so_luong: number;
+  gia_Dat_hang: number;
+  giam_gia: number;
+}
+
+interface OrderBill {
+  order:Order;
+  orderDetails:OrderDetails;
 }

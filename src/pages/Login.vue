@@ -3,10 +3,10 @@ import { loginValidate } from "@/yup-validate";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import { useAuth } from "@/hook/use-auth";
 import { useRouter } from "vue-router";
+import logo from "@/assets/images/shirt.png";
 const { login } = useAuth();
 const router = useRouter();
 async function onSubmit(values: any) {
-  console.log(values);
   const res = await login({
     so_dien_thoai: values.phone,
     password: values.password,
@@ -97,11 +97,7 @@ async function onSubmit(values: any) {
           >
             <div class="sm:w-full sm:max-w-sm">
               <div class="flex justify-center">
-                <img
-                  class="h-10 w-auto"
-                  src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                  alt="Your Company"
-                />
+                <img class="h-14 w-auto" :src="logo" alt="Logo" />
               </div>
               <h2
                 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900"
