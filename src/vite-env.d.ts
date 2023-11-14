@@ -71,9 +71,10 @@ interface OrderDetails {
   so_luong: number;
   gia_Dat_hang: number;
   giam_gia: number;
+  product_id:Product;
 }
 
 interface OrderBill {
   order:Order;
-  orderDetails:OrderDetails;
+  orderDetails:OrderDetails[];
 }

@@ -7,7 +7,7 @@ import Footer from "@comp/Footer.vue";
   <!-- <v-layout>
     <v-main> -->
   <Header />
-  <slot></slot>
+  <div class="min-h-screen"><slot></slot></div>
   <Footer />
   <!-- </v-main>
   </v-layout> -->

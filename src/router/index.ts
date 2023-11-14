@@ -21,6 +21,23 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@pages/Register.vue"),
   },
   {
+    path: "/order",
+    name: "Order",
+    component: () => import("@pages/Order.vue"),
+
+    meta: {
+      layout: TheDefaultLayout,
+    },
+  },
+  {
+    path: "/order/:_id",
+    name: "Order:id",
+    component: () => import("@pages/OrderDetails.vue"),
+    meta: {
+      layout: TheDefaultLayout,
+    },
+  },
+  {
     path: "/cart",
     name: "Cart",
     component: () => import("@pages/CartPage.vue"),

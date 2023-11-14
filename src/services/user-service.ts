@@ -25,6 +25,10 @@ class UserService {
   async getOrderBill(_id: string) {
     return await axios.get<ResData<OrderBill[]>>(Api.API_ORDER);
   }
+
+  async getOrderDetail(_id: string) {
+    return await axios.get<ResData<OrderBill>>(`${Api.API_ORDER}/${_id}`);
+  }
 }
 
 const userService = new UserService();
