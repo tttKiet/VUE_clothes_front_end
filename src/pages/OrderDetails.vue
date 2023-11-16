@@ -1,10 +1,13 @@
 <template>
-  <div class="page">
+  <div v-if="!user._id" class="text-center py-6">Bạn chưa đăng nhập!!</div>
+
+  <div v-else class="page">
     <div class="py-14 px-6 container mx-auto">
       <div class="">
         <!--  -->
 
         <div
+          v-if="router.currentRoute.value.query?.t == 'success'"
           class="relative isolate flex items-center gap-x-6 overflow-hidden bg-gray-50 sm:px-3.5 shadow-md rounded-md"
         >
           <div
@@ -177,7 +180,7 @@
                   <p
                     class="text-base dark:text-gray-300 leading-4 text-gray-600"
                   >
-                    ${{ totalProductPrice }}
+                    ${{ totalProductPrice.toLocaleString() }}
                   </p>
                 </div>
                 <div class="flex justify-between items-center w-full">
@@ -240,94 +243,125 @@
             </div>
           </div>
         </div>
-        <div
-          class="bg-gray-50 dark:bg-gray-800 w-[554px] flex justify-between items-center md:items-start px-4 py-6 md:p-6 xl:p-8 flex-col"
-        >
-          <h3
-            class="text-xl dark:text-white font-semibold leading-5 text-gray-800"
-          >
-            Khách hàng
-          </h3>
+        <div class="w-[554px]">
           <div
-            class="flex flex-col md:flex-row xl:flex-col justify-start items-stretch h-full w-full md:space-x-6 lg:space-x-8 xl:space-x-0"
+            class="bg-gray-50 dark:bg-gray-800 flex justify-between items-center md:items-start px-4 py-6 md:p-6 xl:p-8 flex-col"
           >
-            <div class="flex flex-col justify-start items-start flex-shrink-0">
-              <div
-                class="flex justify-center w-full md:justify-start items-center space-x-4 py-8 border-b border-gray-200"
-              >
-                <img
-                  class="inline-block h-12 w-12 rounded-full ring-2 ring-white"
-                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                  alt=""
-                />
-                <div class="flex justify-start items-start flex-col gap-2">
-                  <p
-                    class="text-base mb-0 dark:text-white font-semibold text-left text-gray-800"
-                  >
-                    {{ orderData?.order.user_id.ho_ten_KH }}
-                  </p>
-                  <p
-                    class="text-sm mb-0 dark:text-gray-300 leading-5 text-gray-600"
-                  >
-                    {{ orderData?.order.user_id.dia_chi }}
-                  </p>
-                </div>
-              </div>
-
-              <div
-                class="flex justify-center text-gray-800 dark:text-white md:justify-start items-center space-x-4 py-4 border-b border-gray-200 w-full"
-              >
-                <PhoneIcon class="w-5 h-5" />
-
-                <p class="cursor-pointer text-sm mb-0">
-                  {{ orderData?.order.user_id.so_dien_thoai }}
-                </p>
-              </div>
-            </div>
-            <div
-              class="flex justify-between xl:h-full items-stretch w-full flex-col mt-6 md:mt-0"
+            <h3
+              class="text-xl dark:text-white font-semibold leading-5 text-gray-800"
             >
-              <div
-                class="flex justify-center md:justify-start xl:flex-col flex-col md:space-x-6 lg:space-x-8 xl:space-x-0 space-y-4 xl:space-y-12 md:space-y-0 md:flex-row items-center md:items-start"
-              >
+              Khách hàng
+            </h3>
+            <div class="flex flex-col justify-start w-full">
+              <div class="">
                 <div
-                  class="flex justify-center md:justify-start items-center md:items-start flex-col space-y-4 xl:mt-8"
+                  class="flex justify-center w-full md:justify-start items-center space-x-4 py-8 border-b border-gray-200"
                 >
-                  <p
-                    class="text-base dark:text-white font-semibold leading-4 text-center md:text-left text-gray-800"
-                  >
-                    Địa chỉ nhận hàng
-                  </p>
-                  <p
-                    class="w-48 lg:w-full dark:text-gray-300 xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600"
-                  >
-                    {{ orderData?.order.dia_chi_nhan }}
-                  </p>
+                  <img
+                    class="inline-block h-12 w-12 rounded-full ring-2 ring-white"
+                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                    alt=""
+                  />
+                  <div class="flex justify-start items-start flex-col gap-2">
+                    <p
+                      class="text-base mb-0 dark:text-white font-semibold text-left text-gray-800"
+                    >
+                      {{ orderData?.order.user_id.ho_ten_KH }}
+                    </p>
+                    <p
+                      class="text-sm mb-0 dark:text-gray-300 leading-5 text-gray-600"
+                    >
+                      {{ orderData?.order.user_id.dia_chi }}
+                    </p>
+                  </div>
                 </div>
+
                 <div
-                  class="flex justify-center md:justify-start items-center md:items-start flex-col space-y-4"
+                  class="flex justify-center text-gray-800 dark:text-white md:justify-start items-center space-x-4 py-4 border-b border-gray-200 w-full"
                 >
-                  <p
-                    class="text-base dark:text-white font-semibold leading-4 text-center md:text-left text-gray-800"
-                  >
-                    Số điện thoại nhận hàng
-                  </p>
-                  <p
-                    class="w-48 lg:w-full dark:text-gray-300 xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600"
-                  >
-                    {{ orderData?.order.so_dien_thoai_dat_hang }}
+                  <PhoneIcon class="w-5 h-5" />
+
+                  <p class="cursor-pointer text-sm mb-0">
+                    {{ orderData?.order.user_id.so_dien_thoai }}
                   </p>
                 </div>
               </div>
               <div
-                class="flex w-full justify-center items-center md:justify-start md:items-start"
+                class="flex justify-between xl:h-full items-stretch w-full flex-col mt-6 md:mt-0"
               >
-                <div class="w-full flex justify-center items-center">
-                  <button
-                    class="hover:bg-black dark:bg-white dark:text-gray-800 dark:hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 py-5 w-96 md:w-full bg-gray-800 text-base font-medium leading-4 text-white"
+                <div
+                  class="flex justify-center md:justify-start space-y-6 flex-col items-center md:items-start"
+                >
+                  <div
+                    class="flex justify-center md:justify-start items-center md:items-start flex-col space-y-4 xl:mt-8"
                   >
-                    Hủy đơn hàng
-                  </button>
+                    <p
+                      class="text-base mb-0 dark:text-white font-semibold leading-1 text-center md:text-left text-gray-800"
+                    >
+                      Địa chỉ nhận hàng
+                    </p>
+                    <p
+                      class="w-48 lg:w-full dark:text-gray-300 xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600"
+                    >
+                      {{ orderData?.order.dia_chi_nhan }}
+                    </p>
+                  </div>
+                  <div
+                    class="flex justify-center md:justify-start items-center md:items-start flex-col space-y-4"
+                  >
+                    <p
+                      class="text-base mb-0 dark:text-white font-semibold leading-1 text-center md:text-left text-gray-800"
+                    >
+                      Số điện thoại nhận hàng
+                    </p>
+                    <p
+                      class="w-48 lg:w-full dark:text-gray-300 xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600"
+                    >
+                      {{ orderData?.order.so_dien_thoai_dat_hang }}
+                    </p>
+                  </div>
+
+                  <div class="flex items-center gap-4">
+                    <p
+                      class="mb-0 text-base dark:text-white font-semibold text-center md:text-left text-gray-800"
+                    >
+                      Trạng thái đơn hàng
+                    </p>
+                    <p
+                      :class="` mb-0 bg-white rounded-md x px-4 py-2 text-center md:text-left text-sm  ${
+                        orderData?.order.trang_thai_DH == 'NEW'
+                          ? 'text-yellow-600 '
+                          : `${
+                              orderData?.order.trang_thai_DH == 'CANCEL'
+                                ? 'text-red-600 '
+                                : 'text-blue-600 '
+                            }`
+                      }`"
+                    >
+                      {{
+                        StatusEnum.find(
+                          (s) => s.name == orderData?.order.trang_thai_DH,
+                        )?.value
+                      }}
+                    </p>
+                  </div>
+
+                  <router-link to="/" class="py-2 text-blue-600"
+                    >Tiếp tục mua sắm</router-link
+                  >
+                </div>
+                <div
+                  class="flex w-full justify-center items-center md:justify-start md:items-start"
+                >
+                  <div class="w-full flex justify-center items-center mt-6">
+                    <button
+                      @click="handleCLickCancelOrder"
+                      :disabled="orderData?.order.trang_thai_DH != 'NEW'"
+                      class="cancel hover:bg-black dark:bg-white dark:text-gray-800 dark:hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 py-5 w-96 md:w-full bg-gray-800 text-base font-medium leading-4 text-white"
+                    >
+                      Hủy đơn hàng
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -339,16 +373,85 @@
 </template>
 
 <script setup lang="ts">
+import { useAuth } from "@/hook/use-auth";
 import userService from "@/services/user-service";
+import { toastMsgFromPromise } from "@/untils";
 import { CheckBadgeIcon, PlusIcon, PhoneIcon } from "@heroicons/vue/24/solid";
 import { computed } from "@vue/reactivity";
 import moment from "moment";
+import Swal from "sweetalert2";
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
-
+const { user } = useAuth();
 const orderData = ref<OrderBill | null>(null);
 
 const router = useRouter();
+const StatusEnum = [
+  {
+    name: "NEW",
+    value: "Chờ xác nhận",
+  },
+  {
+    name: "CONFIRMED",
+    value: "Đã xác nhận",
+  },
+  {
+    name: "PICKED_UP",
+    value: "Đã lấy hàng",
+  },
+  {
+    name: "DELIVERING",
+    value: "Đang giao hàng",
+  },
+  {
+    name: "DELIVERED",
+    value: "Đã giao",
+  },
+  {
+    name: "CANCEL",
+    value: "Đã hủy",
+  },
+];
+
+async function handleCLickCancelOrder() {
+  const swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+      confirmButton:
+        "btn btn-success text-red-400 mx-1 border border-red-500 rounded-xl px-4 py-1",
+      cancelButton: "btn btn-danger mx-1",
+    },
+    buttonsStyling: false,
+  });
+
+  swalWithBootstrapButtons.fire({
+    title: "Bạn có muốn hủy đơn hàng này này?",
+    confirmButtonText: "Đồng ý",
+    text: "Đơn hàng sẽ bị hủy và không thể khôi phục!",
+    icon: "warning",
+    showCancelButton: true,
+    cancelButtonText: "Không hủy!",
+    reverseButtons: true,
+    showLoaderOnConfirm: true,
+    allowOutsideClick: () => !Swal.isLoading(),
+    preConfirm: async () => {
+      const api = userService.cancelOrder(
+        router.currentRoute.value.params?._id?.toString(),
+      );
+      const res = await toastMsgFromPromise(api);
+      if (res.status == 200) {
+        router.push(`/order/${router.currentRoute.value.params._id}`);
+        fetchOrder();
+      }
+    },
+  });
+  // .then(async (result) => {
+  //   Swal.isLoading();
+  //   if (result.isConfirmed) {
+  //   } else if (result.isDenied) {
+  //     Swal.fire("Thay đổi chưa được lưu", "", "info");
+  //   }
+  // });
+}
 
 function fetchOrder() {
   const { _id } = router.currentRoute.value.params;
@@ -371,6 +474,7 @@ const totalProductPrice = computed((): number => {
 });
 
 onMounted(() => {
+  console.log(router);
   fetchOrder();
 });
 </script>

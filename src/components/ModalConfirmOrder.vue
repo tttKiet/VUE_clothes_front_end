@@ -205,7 +205,7 @@ const props = defineProps<{
   totalProductRaw: number;
   open: boolean;
   toggleShowModal: () => void;
-  cartItems: ProductCart[];
+  cartItems?: ProductCart[];
 }>();
 
 const emit = defineEmits<{
@@ -225,7 +225,7 @@ const emit = defineEmits<{
 
 function handleConfirm() {
   console.log("props.cartItems", props.cartItems);
-  const productCartIds: string[] = props.cartItems.map((c) => c._id!);
+  const productCartIds: string[] = props?.cartItems?.map((c) => c._id!) || [];
   emit("confirmed", {
     productCartIds,
     dia_chi_nhan: userInforPayment.dia_chi,

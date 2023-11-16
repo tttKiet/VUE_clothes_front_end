@@ -1,6 +1,7 @@
 import { RouteRecordRaw } from "vue-router";
 import TheDefaultLayout from "@layouts/TheDefaultLayout.vue";
 import TheDashboardLayout from "@layouts/TheDashboardLayout.vue";
+
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",

@@ -41,11 +41,12 @@
             <div
               class="mt-10 flex items-center justify-center gap-x-6 lg:justify-start"
             >
-              <a
-                href="#start"
+              <div
+                @click="handleScrollToView"
                 class="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-                >Bắt đầu mua sắm</a
               >
+                Bắt đầu mua sắm
+              </div>
               <a href="#" class="text-sm font-semibold leading-6 text-white"
                 >Xem thêm <span aria-hidden="true">→</span></a
               >
@@ -80,9 +81,9 @@
         </div>
       </div>
     </div>
-
+    <div ref="refView"></div>
     <!-- Breadcrumbs -->
-    <div id="start" class="container mx-auto px-2 mt-8">
+    <div class="container mx-auto px-2 mt-8">
       <Breadcrumbs :breadcrumbs="breadcrumbs" />
     </div>
     <!-- List product -->
@@ -94,6 +95,16 @@
 import ListProduct from "@comp/lists/ListProduct.vue";
 import StatHome from "@comp/common/StatHome.vue";
 import Breadcrumbs, { IBreadcrumb } from "@comp/common/Breadcrumbs.vue";
+import { ref } from "vue";
+const refView = ref();
+
+function handleScrollToView() {
+  refView.value?.scrollIntoView({
+    behavior: "smooth",
+    top: "220px",
+    block: "start",
+  });
+}
 
 const breadcrumbs: IBreadcrumb[] = [
   {

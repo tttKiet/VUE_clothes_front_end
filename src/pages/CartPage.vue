@@ -170,12 +170,13 @@ import ProductCartItem from "@/components/ProductCartItem.vue";
 import { useAuth } from "@/hook/use-auth";
 import { Button, Checkbox } from "ant-design-vue";
 import { ShoppingCartIcon } from "@heroicons/vue/24/outline";
-import { RouterLink } from "vue-router";
+import { RouterLink, useRouter } from "vue-router";
 import cart_empty from "@/assets/images/empty_cart.jpg";
 import ModalConfirmOrder from "@/components/ModalConfirmOrder.vue";
 import userService from "@/services/user-service";
 import { toastMsgFromPromise } from "@/untils";
 const { user } = useAuth();
+const router = useRouter();
 
 const loading = ref(false);
 
@@ -196,6 +197,7 @@ async function handleConfirmOrder(data: {
   if (res.status == 200) {
     fetchProduct();
     toggleModalConfirm();
+    router.push(`/order/${res.data.data.order._id}?t=success`);
   }
   loading.value = false;
 }

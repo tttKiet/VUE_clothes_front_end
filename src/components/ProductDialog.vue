@@ -197,13 +197,28 @@
                           >
                         </div>
 
-                        <button
-                          type="button"
-                          class="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                          @click="handleClickAddCart"
-                        >
-                          Thêm vào giỏ hàng
-                        </button>
+                        <div class="flex items-center gap-2">
+                          <button
+                            type="button"
+                            class="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white transition-all hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            @click="
+                              emit('clickBuy', {
+                                product_id: props.product._id,
+                                size: selectedSize.name,
+                                so_luong: Number.parseInt(number.toString()),
+                              })
+                            "
+                          >
+                            Mua ngay
+                          </button>
+                          <button
+                            type="button"
+                            class="mt-6 flex border-blue-600 border w-full items-center justify-center rounded-md px-8 py-3 text-base font-medium hover:text-blue-600 transition-all hover:opacity-90 text-blue-500 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:ring-offset-2"
+                            @click="handleClickAddCart"
+                          >
+                            Thêm vào giỏ hàng
+                          </button>
+                        </div>
                       </form>
                     </section>
                   </div>
@@ -249,6 +264,18 @@ const emit = defineEmits<{
       so_luong: number;
     },
   ): void;
+  (
+    e: "clickBuy",
+    {
+      size,
+      product_id,
+      so_luong,
+    }: {
+      size: string;
+      product_id: string;
+      so_luong: number;
+    },
+  ): void;
 }>();
 
 const props = defineProps<{
@@ -256,31 +283,7 @@ const props = defineProps<{
   handleClose: () => void;
   product: Product;
 }>();
-// const product = {
-//   name: "Basic Tee 6-Pack ",
-//   price: "$192",
-//   rating: 3.9,
-//   reviewCount: 117,
-//   href: "#",
-//   imageSrc:
-//     "https://tailwindui.com/img/ecommerce-images/product-quick-preview-02-detail.jpg",
-//   imageAlt: "Two each of gray, white, and black shirts arranged on table.",
-//   colors: [
-//     { name: "White", class: "bg-white", selectedClass: "ring-gray-400" },
-//     { name: "Gray", class: "bg-gray-200", selectedClass: "ring-gray-400" },
-//     { name: "Black", class: "bg-gray-900", selectedClass: "ring-gray-900" },
-//   ],
-//   sizes: [
-//     { name: "XXS", inStock: true },
-//     { name: "XS", inStock: true },
-//     { name: "S", inStock: true },
-//     { name: "M", inStock: true },
-//     { name: "L", inStock: true },
-//     { name: "XL", inStock: true },
-//     { name: "XXL", inStock: true },
-//     { name: "XXXL", inStock: false },
-//   ],
-// };
+//
 
 const sizes = [
   { name: "XXS", inStock: true },
@@ -294,7 +297,6 @@ const sizes = [
 ];
 
 function handleClickAddCart() {
-  console.log("selectedSize", selectedSize.value.name);
   emit("addProductInCart", {
     product_id: props.product._id,
     size: selectedSize.value.name,
@@ -303,7 +305,8 @@ function handleClickAddCart() {
 }
 
 function handleChangeNumber(value: ValueType) {
-  number.value = value;
+  console.log("value", value);
+  value && (number.value = value);
 }
 
 const total = computed(() => {

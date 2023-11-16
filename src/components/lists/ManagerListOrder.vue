@@ -69,7 +69,7 @@
           </template>
           <template v-if="column.key === 'gia_Dat_hang'">
             <span class="text-blue-500 font-semibold">
-              {{ columnChild.gia_Dat_hang.toLocaleString() }} vnđ
+              $ {{ columnChild.gia_Dat_hang.toLocaleString() }}
             </span>
           </template>
           <template v-if="column.key === 'so_luong'">
@@ -78,12 +78,12 @@
 
           <template v-if="column.key === 'total'">
             <span class="text-blue-600 font-semibold">
+              $
               {{
                 (
                   columnChild.gia_Dat_hang * columnChild.so_luong
                 ).toLocaleString()
               }}
-              vnđ
             </span>
           </template>
         </template>
@@ -92,7 +92,7 @@
       <h4 class="text-gray-600 mt-6 flex items-center">
         <div>Tổng đơn hàng:</div>
         <div class="w-[158px] text-left p-4 text-blue-500">
-          {{ totalPrice(record.orderDetails).toLocaleString() }} vnđ
+          $ {{ totalPrice(record.orderDetails).toLocaleString() }}
         </div>
       </h4>
     </template>
@@ -102,10 +102,19 @@
 import adminService from "@/services/admin-service";
 import { Select, Table } from "ant-design-vue";
 import { SmileOutlined } from "@ant-design/icons-vue";
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 import moment from "moment";
 import { SelectValue } from "ant-design-vue/es/select";
 import { toastMsgFromPromise } from "@/untils";
+
+defineProps<{
+  data: OrderBill[];
+}>();
+
+const emit = defineEmits<{
+  (e: "fetchOrder"): void;
+}>();
+
 function totalPrice(productsCart: ProductCart[]): number {
   return (
     productsCart.reduce((init, p) => {
@@ -119,7 +128,7 @@ const isLoading = ref<boolean>(false);
 const StatusEnum = [
   {
     name: "NEW",
-    value: "Chưa xác nhận",
+    value: "Chờ xác nhận",
   },
   {
     name: "CONFIRMED",
@@ -137,6 +146,10 @@ const StatusEnum = [
     name: "DELIVERED",
     value: "Đã giao",
   },
+  {
+    name: "CANCEL",
+    value: "Đã hủy",
+  },
 ];
 
 async function handleChangeStatus(value: SelectValue, order_id: string) {
@@ -147,7 +160,8 @@ async function handleChangeStatus(value: SelectValue, order_id: string) {
   });
   const res = await toastMsgFromPromise(api);
   if (res.status == 200) {
-    fetchOrder();
+    // fetchOrder();
+    emit("fetchOrder");
   }
   isLoading.value = false;
 }
@@ -204,23 +218,4 @@ const columns = [
     key: "trang_thai_DH",
   },
 ];
-
-const data = ref<any>([]);
-
-async function fetchOrder() {
-  const res = await adminService.getOrder();
-  if (res.status == 200) {
-    data.value =
-      res.data.data?.map((order) => {
-        return {
-          key: order.order._id,
-          ...order,
-        };
-      }) || [];
-  }
-}
-
-onMounted(() => {
-  fetchOrder();
-});
 </script>

@@ -139,7 +139,6 @@ const previewImage = ref("");
 const previewTitle = ref("");
 
 const fileList = ref<UploadFile[]>([]);
-console.log(fileList);
 
 const formState: UnwrapRef<Partial<IFormState>> = reactive({
   _id: "",
@@ -223,9 +222,7 @@ function isValidFormatFiles(files: UploadFile[]) {
 }
 const handleChangeImag: UploadProps["onChange"] = ({
   fileList: newFileList,
-  file,
 }) => {
-  console.log("file", file);
   if (newFileList.length > 1) {
     // return toast.error("Chỉ được tải lên 3 ảnh");
     return message.error({

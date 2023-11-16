@@ -1,5 +1,11 @@
 <template>
-  <a-table :columns="columns" :data-source="data">
+  <Table
+    :columns="columns"
+    :data-source="data"
+    :pagination="{
+      pageSize: 4,
+    }"
+  >
     <template #headerCell="{ column }">
       <template v-if="column.key === 'ten_HH'">
         <span>
@@ -16,6 +22,8 @@
             v-if="record.ProductImage.url"
             :fallback="fallbackImg"
             :width="200"
+            :height="200"
+            class="object-contain"
             :src="record.ProductImage.url"
           />
           <a-image
@@ -29,17 +37,17 @@
 
       <template v-if="column.key === 'gia'">
         <span class="text-blue-500 mr-1"
-          >{{ record.gia.toLocaleString() }} vnđ</span
-        >
+          >$ {{ record.gia.toLocaleString() }}
+        </span>
       </template>
-      <template v-if="column.key === 'so_luong_hang'">
-        <span class="text-pink-500 mr-1 font-semibold">{{
-          record.so_luong_hang
-        }}</span>
+      <template v-if="column.key === 'ton_kho_so_luong_hang'">
+        <span class="text-pink-500 mr-1 font-semibold"
+          >{{ record.availableOrder }} / {{ record.so_luong_hang }}</span
+        >
       </template>
 
       <template v-else-if="column.key === 'action'">
-        <span>
+        <span class="flex items-center gap-2">
           <router-link :to="`/admin/manager-product?_id=${record._id}`">
             <Button type="dashed" class="px-6" size="middle">Sửa</Button>
           </router-link>
@@ -54,11 +62,11 @@
         </span>
       </template>
     </template>
-  </a-table>
+  </Table>
 </template>
 <script lang="ts" setup>
 import productService from "@/services/product-service";
-import { Button } from "ant-design-vue";
+import { Button, Table } from "ant-design-vue";
 import { SmileOutlined } from "@ant-design/icons-vue";
 import { onMounted, ref } from "vue";
 import fallbackImg from "@/assets/images/image_fallback-removebg.png";
@@ -75,8 +83,8 @@ const columns = [
     key: "gia",
   },
   {
-    title: "Số lượng hàng",
-    key: "so_luong_hang",
+    title: "Tồn kho / Số lượng hàng ",
+    key: "ton_kho_so_luong_hang",
     dataIndex: "so_luong_hang",
   },
   {
@@ -141,6 +149,7 @@ function hanleCLickDelete(_id: string) {
 async function fetchProduct() {
   const res = await productService.getProduct();
   if (res.status == 200) {
+    console.log(res.data);
     data.value =
       res.data.data?.map((product) => {
         return {

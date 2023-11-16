@@ -9,28 +9,39 @@
         class="h-full w-full object-cover object-center group-hover:opacity-75"
       />
     </div>
-    <div class="flex items-start gap-1 justify-between mt-4">
-      <h3 class="text-sm text-gray-700 flex-1 mb-0">{{ product.ten_HH }}</h3>
-      <span class="text-sm flex items-start gap-1">
-        4
-        <Rate
-          class="text-sm relative -top-[3.2px]"
-          :value="4"
-          :allow-clear="false"
-          :autofocus="false"
-          :disabled="true"
-        />
-      </span>
-    </div>
-    <div class="mt-1 flex items-center gap-1 mb-4">
-      <CurrencyDollarIcon class="w-5 h-5 text-pink-600" />
-      <p class="text-lg font-medium mb-0 text-pink-600">
-        {{ product.gia.toLocaleString() }}
-      </p>
+    <div class="">
+      <div class="flex items-start gap-1 justify-between mt-4">
+        <h3
+          class="text-sm text-gray-700 flex-1 mb-0 overflow-clip text-ellipsis h-[40px]"
+          :style="{
+            display: '-webkit-box',
+            WebkitLineClamp: '2',
+            WebkitBoxOrient: 'vertical',
+          }"
+        >
+          {{ product.ten_HH }}
+        </h3>
+        <span class="text-sm flex items-start gap-1">
+          4
+          <Rate
+            class="text-sm relative -top-[3.2px]"
+            :value="4"
+            :allow-clear="false"
+            :autofocus="false"
+            :disabled="true"
+          />
+        </span>
+      </div>
+      <div class="mt-1 flex items-center gap-1 mb-4">
+        <CurrencyDollarIcon class="w-5 h-5 text-pink-600" />
+        <p class="text-lg font-medium mb-0 text-pink-600">
+          {{ product.gia.toLocaleString() }}
+        </p>
+      </div>
     </div>
   </div>
   <div class="flex items-center justify-center gap-1">
-    <Button type="dashed" class="flex-1" @click="handleCLickBuy"
+    <Button type="dashed" class="flex-1" @click="handleCLickAddCart"
       >Mua ngay</Button
     >
     <Button
@@ -44,6 +55,7 @@
       :handle-close="toggleDialogCart"
       :product="product"
       @add-product-in-cart="addProductInCart"
+      @click-buy="handleClickBuy"
     />
   </div>
 </template>
@@ -63,27 +75,20 @@ import { useAuth } from "@/hook/use-auth";
 const openDialog = ref(false);
 const { user } = useAuth();
 const toast = useToast();
-
-function handleCLickBuy() {
-  if (user.value?._id) {
-    // handle
-  } else {
-    toast("Bạn chưa đăng nhập!", {
-      timeout: 3000,
-      closeOnClick: true,
-      pauseOnFocusLoss: true,
-      position: POSITION.BOTTOM_RIGHT,
-      pauseOnHover: true,
-      draggable: true,
-      draggablePercent: 0.6,
-      showCloseButtonOnHover: false,
-      hideProgressBar: false,
-      closeButton: "button",
-      icon: true,
-    });
-  }
-}
-
+const emit = defineEmits<{
+  (
+    e: "clickBuy",
+    {
+      size,
+      product_id,
+      so_luong,
+    }: {
+      size: string;
+      product_id: string;
+      so_luong: number;
+    },
+  ): void;
+}>();
 function addProductInCart({
   size,
   product_id,
@@ -122,6 +127,23 @@ function addProductInCart({
     .catch((err) => {
       console.log(err);
     });
+}
+
+function handleClickBuy({
+  size,
+  product_id,
+  so_luong,
+}: {
+  size: string;
+  product_id: string;
+  so_luong: number;
+}) {
+  toggleDialogCart();
+  emit("clickBuy", {
+    product_id,
+    size,
+    so_luong,
+  });
 }
 
 function handleCLickAddCart() {

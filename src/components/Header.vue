@@ -6,10 +6,10 @@
         aria-label="Global"
       >
         <div class="flex lg:flex-1">
-          <a href="#" class="-m-1.5 p-1.5">
+          <router-link to="/" class="-m-1.5 p-1.5">
             <span class="sr-only">Clothes</span>
             <img class="h-8 w-auto" :src="logo" alt="Logo" />
-          </a>
+          </router-link>
         </div>
         <div class="flex lg:hidden">
           <button
@@ -146,11 +146,26 @@
                   <!-- text-gray-900 -->
                   <div class="p-1 px-3">
                     <div
+                      class="group relative flex items-center gap-x-4 rounded-lg p-2 text-sm leading-6 hover:bg-gray-50"
+                    >
+                      <div class="flex w-5 h-5 justify-center rounded-lg">
+                        <CheckBadgeIcon class="" />
+                      </div>
+
+                      <router-link to="/order" class="flex-auto">
+                        <button class="block font-semibold">
+                          Order của bạn
+                          <span class="absolute inset-0" />
+                        </button>
+                      </router-link>
+                    </div>
+                    <div
                       class="group relative text-red-500 flex items-center gap-x-4 rounded-lg p-2 text-sm leading-6 hover:bg-gray-50"
                     >
                       <div class="flex w-5 h-5 justify-center rounded-lg">
                         <PowerIcon class="" />
                       </div>
+
                       <div class="flex-auto">
                         <button
                           class="block font-semibold"
@@ -297,7 +312,12 @@ import {
   PlayCircleIcon,
   PowerIcon,
 } from "@heroicons/vue/20/solid";
-import { Bars3Icon, ChartPieIcon, XMarkIcon } from "@heroicons/vue/24/outline";
+import {
+  Bars3Icon,
+  ChartPieIcon,
+  XMarkIcon,
+  CheckBadgeIcon,
+} from "@heroicons/vue/24/outline";
 import { onMounted, ref } from "vue";
 import CartShoppingBadge from "./CartShoppingBadge.vue";
 import Modal from "./modal/Modal.vue";
@@ -345,10 +365,12 @@ onMounted(() => {
   });
   fetchProductCart();
 });
+
 async function handleClickLogoutOk() {
   await logout();
   toggleShowModal();
 }
+
 function handleClickLogout() {
   toggleShowModal();
 }

@@ -142,7 +142,6 @@ import { ref } from "vue";
 
 import { computed } from "@vue/reactivity";
 import { useRouter } from "vue-router";
-import Swal from "sweetalert2";
 
 const open = ref(false);
 const { user, logout } = useAuth();
@@ -156,22 +155,6 @@ async function handleClickLogoutOk() {
   const role = user.value.role;
 
   await logout();
-  const Toast = Swal.mixin({
-    toast: true,
-    position: "top-end",
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.addEventListener("mouseenter", Swal.stopTimer);
-      toast.addEventListener("mouseleave", Swal.resumeTimer);
-    },
-  });
-
-  Toast.fire({
-    icon: "success",
-    title: "Đã đăng xuất",
-  });
   if (role === "admin") {
     router.push("/");
   }
