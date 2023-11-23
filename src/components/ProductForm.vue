@@ -1,4 +1,8 @@
 <template>
+  <h4 class="text-gray-600 text-base text-center pb-4">
+    {{ _id ? "Sửa hàng hóa" : "Thêm hàng hóa mới" }}
+  </h4>
+
   <a-form
     ref="formRef"
     :model="formState"
@@ -66,7 +70,7 @@
 
     <div class="pt-5">
       <Button type="primary" :loading="loading" @click="onSubmit">
-        Thêm
+        {{ _id ? "Sửa hàng hóa" : "Thêm" }}
       </Button>
       <Button type="dashed" style="margin-left: 10px" @click="resetForm"
         >Làm mới</Button

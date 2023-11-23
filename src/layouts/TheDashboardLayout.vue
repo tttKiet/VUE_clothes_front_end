@@ -100,6 +100,13 @@
                   </span></router-link
                 >
               </a-menu-item>
+              <a-menu-item key="/admin/chart">
+                <router-link to="/admin/chart">
+                  <span class="flex items-center gap-2 justify-start">
+                    <ChartBarIcon class="w-5 h-5" /> Thống kê
+                  </span></router-link
+                >
+              </a-menu-item>
             </a-menu>
           </a-layout-sider>
           <a-layout-content :style="{ padding: '0 24px', minHeight: '280px' }">
@@ -137,6 +144,7 @@ import {
   ListBulletIcon,
   PlusIcon,
   ShoppingBagIcon,
+  ChartBarIcon,
 } from "@heroicons/vue/24/solid";
 import { ref } from "vue";
 

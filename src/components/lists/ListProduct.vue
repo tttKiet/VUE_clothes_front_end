@@ -1,12 +1,31 @@
 <template>
   <div class="bg-white">
+    <div class="flex justify-center mx-auto">
+      <div class="w-[520px] relative">
+        <Input
+          type="text"
+          v-debounce:400ms="handleChangeSearch"
+          placeholder="Tìm kiếm sản phẩm"
+          class="my-4 px-6 py-3 w-full shadow rounded-xl border relative z-0"
+        >
+        </Input>
+        <span
+          class="absolute top-1/2 right-5 translate-y-[-50%] px-2 py-1 hover:bg-gray-100 rounded-md"
+        >
+          <MagnifyingGlassIcon
+            class="w-6 h-6 z-10 cursor-pointer hover:opacity-80 transition-all"
+          />
+        </span>
+      </div>
+    </div>
+
     <div class="mx-auto max-w-2xl px-4 py-4 sm:px-6 lg:max-w-7xl">
       <h2 class="sr-only">Products</h2>
       <div
         class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8"
       >
         <div
-          v-for="product in products"
+          v-for="product in productSearch"
           :key="product._id"
           :to="product.ProductImage.url"
           class="group"
@@ -31,24 +50,49 @@
 <script setup lang="ts">
 import userService from "@/services/user-service";
 import Product from "@comp/Product.vue";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch, toRaw } from "vue";
 import ModalConfirmOrder from "../ModalConfirmOrder.vue";
 import { useToast } from "vue-toastification";
 import { computed } from "@vue/reactivity";
 import productService from "@/services/product-service";
 import { toastMsgFromPromise } from "@/untils";
 import { useRouter } from "vue-router";
+import { Input } from "ant-design-vue";
+import { MagnifyingGlassIcon } from "@heroicons/vue/24/solid";
 const products = ref<Product[]>([]);
+const productSearch = ref<Product[]>([]);
 const loading = ref(false);
 const isOpenModalConfirm = ref(false);
 const cartTemp = ref<any>();
+const searchText = ref<string>("");
 const router = useRouter();
 const toast = useToast();
+
 async function fetchProduct() {
   const res = await productService.getProduct();
   if (res.status == 200) {
     products.value = res.data?.data || [];
+    productSearch.value = res.data?.data || [];
   }
+}
+
+function toNormalize(text: string): string {
+  const str = text;
+  let result = str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  result = result.replace(new RegExp(/[đ]/g), "d");
+  return result;
+}
+
+watch(searchText, (newSearchText) => {
+  console.log("newSearchText", newSearchText);
+  productSearch.value = toRaw(products.value).filter((p) => {
+    const textCompare = toNormalize(p.ten_HH).toLocaleLowerCase();
+    return textCompare.includes(newSearchText.toLocaleLowerCase());
+  });
+});
+
+function handleChangeSearch(value: string) {
+  searchText.value = value || "";
 }
 
 const totalProductRaw = computed((): number => cartTemp.value?.so_luong || 0);

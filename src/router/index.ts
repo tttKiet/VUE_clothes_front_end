@@ -68,6 +68,14 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
+    path: "/admin/chart",
+    name: "Admin/Chart",
+    component: () => import("@/pages/admin/Chart.vue"),
+    meta: {
+      layout: TheDashboardLayout,
+    },
+  },
+  {
     path: "/:pathMatch(.*)*",
     name: "notfound",
     component: () => import("@pages/NotFound.vue"),
