@@ -43,7 +43,7 @@ export const userLoginStore = defineStore("user", {
         JSON.stringify(payload.accessToken),
       );
       this._data = {
-        _id: payload.data._id,
+        _id: payload.data?._id || "",
         _ho_ten_KH: payload.data.ho_ten_KH,
         _so_dien_thoai: payload.data.so_dien_thoai,
         _role: payload.data.role,
@@ -58,7 +58,7 @@ export const userLoginStore = defineStore("user", {
 
     saveProfile(payload: UserLogin) {
       this._data = {
-        _id: payload._id,
+        _id: payload?._id || "",
         _ho_ten_KH: payload.ho_ten_KH,
         _so_dien_thoai: payload.so_dien_thoai,
         _role: payload.role,

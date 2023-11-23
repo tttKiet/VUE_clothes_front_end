@@ -305,7 +305,6 @@ function handleClickAddCart() {
 }
 
 function handleChangeNumber(value: ValueType) {
-  console.log("value", value);
   value && (number.value = value);
 }
 
