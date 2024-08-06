@@ -2,7 +2,7 @@ import axios, { AxiosRequestHeaders } from "axios";
 import { userLoginStore } from "@/pinia/store";
 const instance = axios.create({
   withCredentials: true,
-  // baseURL: "http//:localhost:8080"
+  baseURL: "https://vue-clothes-back-end.vercel.app",
 });
 
 // Request interceptor for API calls
