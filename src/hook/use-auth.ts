@@ -87,8 +87,8 @@ export function useAuth() {
       const api = axios.delete<ResData>("/api/v1/auth/logout");
       const res = await toastMsgFromPromise(api);
 
+      logoutToStore();
       if (res.status === 200) {
-        logoutToStore();
         return res.data;
       }
       return null;

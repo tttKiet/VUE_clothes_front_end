@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white">
+  <div class="bg-white min-h-screen">
     <div class="flex justify-center mx-auto">
       <div class="w-[520px] relative">
         <Input
@@ -21,6 +21,9 @@
 
     <div class="mx-auto max-w-2xl px-4 py-4 sm:px-6 lg:max-w-7xl">
       <h2 class="sr-only">Products</h2>
+      <div v-if="productSearch.length === 0" class="py-9 text-center">
+        Không có sản phẩm nào phù hợp!
+      </div>
       <div
         class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8"
       >
@@ -84,7 +87,6 @@ function toNormalize(text: string): string {
 }
 
 watch(searchText, (newSearchText) => {
-  console.log("newSearchText", newSearchText);
   productSearch.value = toRaw(products.value).filter((p) => {
     const textCompare = toNormalize(p.ten_HH).toLocaleLowerCase();
     return textCompare.includes(newSearchText.toLocaleLowerCase());
